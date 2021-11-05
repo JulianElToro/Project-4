@@ -17,19 +17,24 @@ public:
 
 	//First we declare the member variables
 
-	double T_ , L_;
+	double T_;
+
+	int L_;
 
 	//Then, we declare also the constructor
 
 	Ising() {}
 
-	Ising(double T_in, double L_in);
+	Ising(double T_in, int L_in);
 
 
 	//Finally, we declare some methods for calculating some important things
 
-	void Ising::matrix(bool random);
-	
+	void create_matrix(imat& A, bool random);
+	void flip_spin(mat S);
+	void energy_spin(mat S);
+	void magnetization_spin(mat S);
+
 };
 
 
