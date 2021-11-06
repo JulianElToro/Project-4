@@ -33,8 +33,9 @@ public:
 	void create_matrix(imat& A, bool random);
 	void flip_spin(mat S);
 	void boundary_conditions(mat S);
-	void energy_spin(mat S);
-	void magnetization_spin(mat S);
+	double energy_spin(mat S);
+	double magnetization_spin(mat S);
+	double Cv(mat S);
 
 };
 

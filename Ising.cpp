@@ -36,75 +36,59 @@ void Ising::flip_spin(mat S) {
 
 }
 
+void Ising::boundary_conditions(mat S) {
 
-void Ising::boundary_conditions(mat S){
+	//First we extract the vectors in the borders
 
-        //First we extract the vectors in the borders
-
-        rowvec up = S.row(0);
-        rowvec down = S.row(L_-1);
-        vec left = S.col(0);
-        vec right = S.col(L_-1);
-
-
-        up.insert_rows(0, 1);
-        up.insert_rows(L_+2, 1);
-        down.insert_rows(0, 1);
-        down.insert_rows(L_2+2, 1);
+	rowvec up = S.row(0);
+	rowvec down = S.row(L_ - 1);
+	vec left = S.col(0);
+	vec right = S.col(L_ - 1);
 
 
-        //Now we create a new matrix S_  inserting these vectors in t>
+	up.insert_rows(0, 1);
+	up.insert_rows(L_ + 2, 1);
+	down.insert_rows(0, 1);
+	down.insert_rows(L_2 + 2, 1);
 
-        mat S_ = S;
 
-        S_.insert.cols(0, left);
-        S_.insert.cols(L_+2, right);
-        S_.insert_rows(0,up);
-        S_.insert_rows(L_+2, down);
+	//Now we create a new matrix S_  inserting these vectors in t>
+
+	mat S_ = S;
+
+	S_.insert.cols(0, left);
+	S_.insert.cols(L_ + 2, right);
+	S_.insert_rows(0, up);
+	S_.insert_rows(L_ + 2, down);
 
 }
 
-
-void Ising::energy_spin(mat S_) {
+double Ising::energy_spin(mat S) {
 
 	double E = 0.0;
-	/*
 
-	for (int j = 1; j < L_ + 2; j++) {
-		
-		for (int i = 1; i < L_ + 2; i++) {
+	//meter aqui la función de Elena
 
-			E = -(S_(i, j) * S_(i, j + 1) + S_(i, j) * S_(i, j - 1) + S_(i, j) * S_(i + 1, j) + S_(i, j) * S_(i - 1, j));
-
-		}
-
-		E+=
-	}
-
-	*/
-
-	//double LS_ = S_.n_rows;
-
+	mat S_;
+	
 	for (int j = 1; j < L_ + 2; j++){
 		
 		for (int i = 0; i < L_ + 2; i++) {
 
-			E = -( S_(i, j) * S_(i + 1, j) );
+			E += -( S_(i, j) * S_(i + 1, j) );
 
 		}
 
-		E +=
 	}
 
 	for (int j = 0; j < L_ + 2; j++) {
 
 		for (int i = 1; i < L_ + 2; i++) {
 
-			E = -(S_(i, j) * S_(i, j + 1));
+			E += -(S_(i, j) * S_(i, j + 1));
 
 		}
 
-		E +=
 	}
 
 
@@ -112,27 +96,43 @@ void Ising::energy_spin(mat S_) {
 
 }
 
-void Ising::magnetization_spin(mat S) {
+double Ising::magnetization_spin(mat S) {
 
 	double m = abs( accu(S) ) / (L_ * L_);
 
 }
 
-void Ising::Cv(mat S) {
+double Ising::Cv(mat S) {
 
-	double e2 ;
+	double E2;
+
+	mat S_;
 
 	for (int j = 1; j < L_ + 2; j++) {
 
-		for (int i = 1; i < L_ + 2; i++) {
+		for (int i = 0; i < L_ + 2; i++) {
 
-			E = -(S_(i, j) * S_(i, j + 1) + S_(i, j) * S_(i, j - 1) + S_(i, j) * S_(i + 1, j) + S_(i, j) * S_(i - 1, j));
+			E2 += (S_(i, j) * S_(i + 1, j))* (S_(i, j) * S_(i + 1, j));
 
 		}
 
 	}
 
-	double Cv = energy_spin(S)*energy_spin(S) / T_;
+	for (int j = 0; j < L_ + 2; j++) {
+
+		for (int i = 1; i < L_ + 2; i++) {
+
+			E2 += (S_(i, j) * S_(i, j + 1))*(S_(i, j) * S_(i, j + 1));
+
+		}
+
+	}
+
+
+	double e2 = E2 / (L_ * L_);
+
+	
+	double Cv = ( e2 - energy_spin(S)*energy_spin(S) ) / T_;
 
 
 }
