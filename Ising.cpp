@@ -20,10 +20,34 @@ void Ising::create_matrix(imat& S,bool random) {
         if (random) {
 
                 S = randi(L_, L_, distr_param(0, 1));
-		
-		
-		
-		
+
+		S.replace(0, -1);
+        }
+
+        else{
+
+                S = ones(L_, L_);
+        }
+
+}
+
+
+
+
+//Method that flips one random spin, i.e it changes its sign
+
+void Ising::flip_spin(imat S, int& k, int& l){
+
+	k = rand() % L_;
+	l = rand() % L_;
+
+	S(k, l) = - S(k, l);
+
+}
+
+
+
+
 //Method that adds the periodic boundary conditions
 
 void Ising::boundary_conditions(imat& S_, imat S) {
@@ -52,15 +76,6 @@ void Ising::boundary_conditions(imat& S_, imat S) {
         S_.insert.cols(L_ + 2, right);
         S_.insert_rows(0, up);
         S_.insert_rows(L_ + 2, down);
-
-}
-                S.replace(0, -1);
-        }
-
-        else{
-
-                S = ones(L_, L_);
-        }
 
 }
 
@@ -107,7 +122,7 @@ double Ising::energy_spin(imat S_) {
 
 //Creo que esto deberíamos calcularlo después de sacar la media de e y e² que supongo que se hará usando Monte Carlo???
 
-double Ising::Cv(imat S_) {
+double Ising::Cv(imat S_, double mean_e, double mean_e2) {
 
         /*double E2 = 0.0;
 
@@ -133,7 +148,7 @@ double Ising::Cv(imat S_) {
 
 
         double e2 = E2 / (L_ * L_);
-	
+
 	double e2 = E2 / (L_ * L_);
 
 
@@ -146,6 +161,21 @@ double Ising::Cv(imat S_) {
 
 
 }
+
+
+
+
+//Method that calculates the X (susceptibility)
+
+double Ising::X(double mean_m, double mean_m2){
+
+	double X = (mean_m2 - (mean_m)**2) / T_
+
+        return X
+
+
+}
+
 
 
 
@@ -165,7 +195,7 @@ double Ising::acceptance(imat S_, int k, int l){
         exp_val(4) = exp(-8/T_);*/
 
         double s = S_(k+1, l) + S_(k+1, l+2) + S_(k, l+1) + S_(k+2, l+1);
-	
+
 	if (S_(k+1, l+1) == 1){
 
                 /*if (s == 4){
@@ -197,7 +227,7 @@ double Ising::acceptance(imat S_, int k, int l){
 
 
                 if (s == -3){
-			
+
 			p = exp_val(1);
 
                 }
@@ -230,7 +260,7 @@ double Ising::acceptance(imat S_, int k, int l){
 
 
                 if (s == 0 || s == -3 || s == -4 ){
-			
+
 			p = 1;
 
                 }
