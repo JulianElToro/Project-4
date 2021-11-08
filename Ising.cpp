@@ -148,9 +148,7 @@ double Ising::Cv(imat S_, double mean_e, double mean_e2) {
 
 
         double e2 = E2 / (L_ * L_);
-
-	double e2 = E2 / (L_ * L_);
-
+	
 
         double Cv = ( e2 - energy_spin(S)*energy_spin(S) ) / (T_ * T_);*/
 
