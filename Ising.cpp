@@ -65,15 +65,15 @@ void Ising::boundary_conditions(imat& S_, imat S) {
         up.insert_rows(0, 1);
         up.insert_rows(L_ + 2, 1);
         down.insert_rows(0, 1);
-        down.insert_rows(L_2 + 2, 1);
+        down.insert_rows(L_ + 2, 1);
 
 
         //Now we create a new matrix S_ inserting these vectors in the exterior of S
 
         S_ = S;
 
-        S_.insert.cols(0, left);
-        S_.insert.cols(L_ + 2, right);
+        S_.insert_cols(0, left);
+        S_.insert_cols(L_ + 2, right);
         S_.insert_rows(0, up);
         S_.insert_rows(L_ + 2, down);
 
