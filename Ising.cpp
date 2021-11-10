@@ -89,9 +89,9 @@ double Ising::energy_spin(imat S_) {
 
         double E = 0.0;
 
-        for (int j = 1; j < L_ + 2; j++){
+        for (int j = 1; j < L_; j++){
 
-                for (int i = 0; i < L_ + 2; i++) {
+                for (int i = 0; i < L_; i++) {
 
                         E += -( S_(i, j) * S_(i + 1, j) );
 
