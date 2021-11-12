@@ -34,7 +34,7 @@ public:
 	//Finally, we declare some methods for calculating some important things
 
 	void create_matrix(mat& S, bool random);
-	void flip_spin(mat S, int& k, int& l);
+	void flip_spin(mat& S, int& k, int& l);
 	//void boundary_conditions(mat& S_, mat S);
 	double energy_spin(mat S);
 	double magnetization_spin(mat S);

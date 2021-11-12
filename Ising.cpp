@@ -18,10 +18,6 @@ Ising::Ising(double T_in, int L_in ,  mt19937 mt_in ) {
 
 void Ising::create_matrix(mat& S, bool random) {
 
-    random_device rd;
-
-    mt19937 mt(rd());
-
     uniform_int_distribution<int> dist_int(0, 1);
 
     if (random) {
@@ -52,53 +48,18 @@ void Ising::create_matrix(mat& S, bool random) {
 
 //Method that flips one random spin, i.e it changes its sign
 
-void Ising::flip_spin(mat S, int& k, int& l) {
+void Ising::flip_spin(mat& S, int& k, int& l) {
 
-    uniform_int_distribution<int> dist_int(0, L_);
+    uniform_int_distribution<int> dist_int(0, L_-1);
 
     k = ( dist_int(mt) );
     l = ( dist_int(mt) );
 
-    S(k, l) = -S(k, l);
+    S(k, l) = -1.0 * S(k, l);
 
 }
 
 
-
-/*
-//Method that adds the periodic boundary conditions
-
-void Ising::boundary_conditions(mat& S_, mat S) {
-
-    //First we extract the vectors in the borders
-
-    rowvec up = S.row(0);
-    rowvec down = S.row(L_ - 1);
-    vec left = S.col(0);
-    vec right = S.col(L_ - 1);
-
-
-    //Then we modify some of them for matching the size of the matrix
-
-    up.insert_cols(0, 1);
-    up.insert_cols(L_ + 1, 1);
-    down.insert_cols(0, 1);
-    down.insert_cols(L_ + 1, 1);
-
-
-    //Now we create a new matrix S_ inserting these vectors in the exterior of S
-
-    S_ = S;
-
-    S_.insert_cols(L_, left);
-    S_.insert_cols(0, right);
-    S_.insert_rows(L_, up);
-    S_.insert_rows(0, down);
-
-
-}
-
-*/
 
 
 //Method that calculates the energy per spin of the system
@@ -107,9 +68,9 @@ double Ising::energy_spin(mat S) {
 
     double E = 0.0;
 
-    for (int j = 0; j <= L_; j++) {
+    for (int j = 0; j < L_; j++) {
 
-        for (int i = 0; i <= L_; i++) {
+        for (int i = 0; i < L_; i++) {
 
             E += -(S( ( L_ + (i-1) ) % L_, j) * S(( L_ + i ) % L_, j));
 
@@ -117,11 +78,11 @@ double Ising::energy_spin(mat S) {
 
     }
 
-    for (int j = 0; j <= L_; j++) {
+    for (int j = 0; j < L_; j++) {
 
-        for (int i = 0; i <= L_; i++) {
+        for (int i = 0; i < L_; i++) {
 
-            E += -( S(i, (L_ + j - 1) % j)* S(i, (L_ + j) % j));
+            E += -( S(i, (L_ + (j - 1)) % j)* S(i, (L_ + j) % j));
 
         }
 
@@ -138,8 +99,6 @@ double Ising::energy_spin(mat S) {
 
 
 //Method that calculates the Cv
-
-//Creo que esto deberíamos calcularlo después de sacar la media de e y e² que supongo que se hará usando Monte Carlo???
 
 double Ising::Cv( double mean_e, double mean_e2) {
 
@@ -248,8 +207,8 @@ void Ising::MCMC(mat S, int k, int l) {
 
     flip_spin(S, k , l);
 
-    random_device rd;
-    mt19937 mt(rd());
+    /*random_device rd;
+    mt19937 mt(rd());*/
     uniform_real_distribution<double> dist_unif(0.0, 1.0);
 
     double r = dist_unif(mt);
