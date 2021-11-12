@@ -1,12 +1,13 @@
 #include "Ising.hpp"
 
 
-Ising::Ising(double T_in, int L_in) {
+Ising::Ising(double T_in, int L_in ,  mt19937 mt_in ) {
 
     //We assign the introduced values to the member variables
 
     T_ = T_in;
     L_ = L_in;
+    mt = mt_in;
 
 }
 
@@ -17,17 +18,17 @@ Ising::Ising(double T_in, int L_in) {
 
 void Ising::create_matrix(mat& S, bool random) {
 
+    random_device rd;
+
+    mt19937 mt(rd());
+
+    uniform_int_distribution<int> dist_int(0, 1);
+
     if (random) {
 
         for (int i = 0; i < L_   ; i++){
 
             for (int j = 0; j < L_ ; j++) {
-
-                random_device rd;
-
-                mt19937 mt(rd());
-
-                uniform_int_distribution<int> dist_int(0,1);
 
                 S(i, j) = static_cast<double>(dist_int(mt));
 
@@ -53,8 +54,10 @@ void Ising::create_matrix(mat& S, bool random) {
 
 void Ising::flip_spin(mat S, int& k, int& l) {
 
-    k = ( rand() % L_);
-    l = ( rand() % L_ );
+    uniform_int_distribution<int> dist_int(0, L_);
+
+    k = ( dist_int(mt) );
+    l = ( dist_int(mt) );
 
     S(k, l) = -S(k, l);
 

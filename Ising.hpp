@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cmath>
 #include <fstream>
+#include <random>
 
 
 using namespace arma;
@@ -21,11 +22,13 @@ public:
 
 	int L_;
 
+	mt19937 mt;
+
 	//Then, we declare also the constructor
 
 	Ising() {}
 
-	Ising(double T_in, int L_in);
+	Ising(double T_in, int L_in, mt19937 mt);
 
 
 	//Finally, we declare some methods for calculating some important things
