@@ -23,7 +23,13 @@ void Ising::create_matrix(mat& S, bool random) {
 
             for (int j = 0; j < L_ ; j++) {
 
-                S(i, j) = static_cast<double>(rand() % 2);
+                random_device rd;
+
+                mt19937 mt(rd());
+
+                uniform_int_distribution<int> dist_int(0,1);
+
+                S(i, j) = static_cast<double>(dist_int(mt));
 
             }
 
@@ -239,9 +245,11 @@ void Ising::MCMC(mat S, int k, int l) {
 
     flip_spin(S, k , l);
 
-    //boundary_conditions(S_, S);
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_real_distribution<double> dist_unif(0.0, 1.0);
 
-    double r = randu();
+    double r = dist_unif(mt);
 
     double a = acceptance(S, k, l);
 
