@@ -1,7 +1,7 @@
 #include "Ising.hpp"
 
 
-Ising::Ising(double T_in, int L_in ,  mt19937 mt_in ) {
+Ising::Ising(double T_in, int L_in, mt19937 mt_in) {
 
     //We assign the introduced values to the member variables
 
@@ -22,9 +22,9 @@ void Ising::create_matrix(mat& S, bool random) {
 
     if (random) {
 
-        for (int i = 0; i < L_   ; i++){
+        for (int i = 0; i < L_; i++) {
 
-            for (int j = 0; j < L_ ; j++) {
+            for (int j = 0; j < L_; j++) {
 
                 S(i, j) = static_cast<double>(dist_int(mt));
 
@@ -50,10 +50,10 @@ void Ising::create_matrix(mat& S, bool random) {
 
 void Ising::flip_spin(mat& S, int& k, int& l) {
 
-    uniform_int_distribution<int> dist_int(0, L_-1);
+    uniform_int_distribution<int> dist_int(0, L_ - 1);
 
-    k = ( dist_int(mt) );
-    l = ( dist_int(mt) );
+    k = (dist_int(mt));
+    l = (dist_int(mt));
 
     S(k, l) = -1.0 * S(k, l);
 
@@ -72,7 +72,7 @@ double Ising::energy_spin(mat S) {
 
         for (int i = 0; i < L_; i++) {
 
-            E += -(S( ( L_ + (i-1) ) % L_, j) * S(( L_ + i ) % L_, j));
+            E += -(S((L_ + (i - 1)) % L_, j) * S((L_ + i) % L_, j));
 
         }
 
@@ -82,7 +82,7 @@ double Ising::energy_spin(mat S) {
 
         for (int i = 0; i < L_; i++) {
 
-            E += -( S(i, (L_ + (j - 1)) % j)* S(i, (L_ + j) % j));
+            E += -(S(i, (L_ + (j - 1)) % L_) * S(i, (L_ + j) % L_));
 
         }
 
@@ -96,15 +96,24 @@ double Ising::energy_spin(mat S) {
 }
 
 
+double Ising::magnetization_spin(mat S) {
+
+    double m = abs( accu(S) ) / (L_ * L_);
+
+    return m;
+
+}
+
+
 
 
 //Method that calculates the Cv
 
-double Ising::Cv( double mean_e, double mean_e2) {
+double Ising::Cv(double mean_e, double mean_e2) {
 
-   double Cv = (mean_e2 - (mean_e) * (mean_e)) / (T_ * T_);
+    double Cv = (mean_e2 - (mean_e) * (mean_e)) / (T_ * T_);
 
-        return Cv;
+    return Cv;
 
 
 }
@@ -118,7 +127,7 @@ double Ising::X(double mean_m, double mean_m2) {
 
     double X = (mean_m2 - (mean_m) * (mean_m)) / T_;
 
-        return X;
+    return X;
 
 
 }
@@ -136,15 +145,15 @@ double Ising::acceptance(mat S, int k, int l) {
     vec exp_val(2);
     exp_val(0) = exp(8.0 / T_);
     exp_val(1) = exp(4.0 / T_);
-   
+
 
     //double s = S(k , l) + S(k + 1, l + 2) + S(k, l + 1) + S(k + 2, l + 1);
 
-    double s = S((L_ + (k-1))%L_, l) + S((L_+(k+1)) % L_, l ) + S(k, (L_ + (l-1)) % L_) + S(k, (L_ + (l+1)) % L_);
+    double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
 
     if (S(k, l) == 1) {
 
-       if (s == 4.0 || s == 3.0 || s == 0.0) {
+        if (s == 4.0 || s == 3.0 || s == 0.0) {
 
             p = 1.0;
 
@@ -205,7 +214,7 @@ void Ising::MCMC(mat S, int k, int l) {
 
     mat S0 = S;
 
-    flip_spin(S, k , l);
+    flip_spin(S, k, l);
 
     /*random_device rd;
     mt19937 mt(rd());*/
