@@ -55,7 +55,7 @@ void Ising::flip_spin(mat& S, int& k, int& l) {
     k = ( dist_int(mt) );
     l = ( dist_int(mt) );
 
-    S(k, l) = -1.0 * S(k, l);
+    S(k, l) = - S(k, l);
 
 }
 
@@ -141,7 +141,6 @@ double Ising::X(double mean_m, double mean_m2) {
 
 //Method that calculates the acceptance probability
 
-
 double Ising::acceptance(mat S, int k, int l) {
 
     double p;
@@ -151,11 +150,9 @@ double Ising::acceptance(mat S, int k, int l) {
     exp_val(1) = exp(4.0 / T_);
 
 
-    //double s = S(k , l) + S(k + 1, l + 2) + S(k, l + 1) + S(k + 2, l + 1);
-
     double s = S((L_ + (k-1))%L_, l) + S((L_+(k+1)) % L_, l ) + S(k, (L_ + (l-1)) % L_) + S(k, (L_ + (l+1)) % L_);
 
-    if (S(k, l) == 1) {
+    if (S(k, l) == -1.0) {
 
        if (s == 4.0 || s == 3.0 || s == 0.0) {
 
@@ -181,7 +178,7 @@ double Ising::acceptance(mat S, int k, int l) {
 
 
 
-    if (S(k, l) == -1.0) {
+    if (S(k, l) == 1.0) {
 
         if (s == 4.0) {
 
@@ -214,14 +211,10 @@ double Ising::acceptance(mat S, int k, int l) {
 
 //Method that performs one loop of the Markov Chain Monte Carlo method
 
-void Ising::MCMC(mat S, int k, int l) {
-
-    mat S0 = S;
+void Ising::MCMC(mat& S, int k, int l) {
 
     flip_spin(S, k , l);
 
-    /*random_device rd;
-    mt19937 mt(rd());*/
     uniform_real_distribution<double> dist_unif(0.0, 1.0);
 
     double r = dist_unif(mt);
@@ -230,7 +223,7 @@ void Ising::MCMC(mat S, int k, int l) {
 
     if (r > a) {
 
-        S = S0;
+        S(k, l) = - S(k, l);
 
     }
 
