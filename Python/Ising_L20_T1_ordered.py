@@ -24,7 +24,6 @@ plt.title("Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles", fontsiz
 plt.ylabel("⟨ϵ⟩" )
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
-plt.show()
 
 #The graph is saved in a PDF file
 plt.savefig("Ising_L20_T1_average_energy_ordered.pdf")
@@ -35,7 +34,6 @@ plt.title("Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles", fontsi
 plt.ylabel("⟨|m|⟩")
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
-plt.show()
 
 #The graph is saved in a PDF file
 plt.savefig("Ising_L20_T1_average_magnetization_ordered.pdf")
