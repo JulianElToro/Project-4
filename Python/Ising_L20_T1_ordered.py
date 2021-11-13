@@ -2,10 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
-"""
-The code opens two data files, creates three vectors for each file, and fills them with the three 
-components of the position and velocity of the particle respectively
-"""
 with  open("Ising_L20_T1_ordered.txt", "r") as  infile:
     
     lines = infile.readlines ()
