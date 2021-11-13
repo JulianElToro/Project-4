@@ -15,8 +15,8 @@ with  open("Ising_L20_T1_ordered.txt", "r") as  infile:
         average_magnetization.append(float(vals [1]))
         
 #Plot
-n=100        
-n_MMC = np.linspace(1 , n, 100)
+n=1000        
+n_MMC = np.linspace(1 , n, 1000)
 
 plt.figure()
 plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
