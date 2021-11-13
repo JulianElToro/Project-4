@@ -19,7 +19,7 @@ n=100
 n_MMC = np.linspace(1 , n, 100)
 
 plt.figure()
-plt.plot(n_MMC, average_energy)
+plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
 plt.title("Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles", fontsize=10)
 plt.ylabel("⟨ϵ⟩" )
 plt.xlabel("Monte Carlo cycles")
@@ -29,7 +29,7 @@ plt.grid(True) #Grids get painted
 plt.savefig("Ising_L20_T2_average_energy_unordered.pdf")
 
 plt.figure()
-plt.plot(n_MMC, average_magnetization)
+plt.plot(n_MMC, average_magnetization, "ob", mfc="b", mec = "b", ms=2)
 plt.title("Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles", fontsize=10)
 plt.ylabel("⟨|m|⟩")
 plt.xlabel("Monte Carlo cycles")
