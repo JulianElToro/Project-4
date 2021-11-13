@@ -26,7 +26,7 @@ plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
 
 #The graph is saved in a PDF file
-plt.savefig("Ising_L20_T1_average_energy_unordered.pdf")
+plt.savefig("Ising_L20_T1_E_unordered.pdf")
 
 plt.figure()
 plt.plot(n_MMC, average_magnetization, "ob", mfc="b", mec = "b", ms=2)
@@ -36,4 +36,4 @@ plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
 
 #The graph is saved in a PDF file
-plt.savefig("Ising_L20_T1_average_magnetization_unordered.pdf")
+plt.savefig("Ising_L20_T1_m_unordered.pdf")
