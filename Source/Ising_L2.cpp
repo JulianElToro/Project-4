@@ -42,6 +42,18 @@ int main() {
 	int MC_cycles = 1000;
 
 	double e_mean, m_mean, e2_mean, m2_mean, Cv_value, X_value;
+	
+	e_mean = 0.0;
+
+	m_mean = 0.0;
+		
+	e2_mean = 0.0;
+		
+	m2_mean = 0.0;
+		
+	Cv_value = 0.0;
+		
+	X_value = 0.0;
 
 	for (int i = 0; i < MC_cycles; i++) {
 
@@ -78,15 +90,15 @@ int main() {
 
 		//double m_values = my_system.magnetization_spin(S);
 
-		e_mean =+ my_system.energy_spin(S);
+		e_mean += my_system.energy_spin(S);
 
-		m_mean =+ my_system.magnetization_spin(S);
+		m_mean += my_system.magnetization_spin(S);
 
-		e2_mean =+ (my_system.energy_spin(S))*(my_system.energy_spin(S));
+		e2_mean += (my_system.energy_spin(S))*(my_system.energy_spin(S));
 
-		m2_mean =+ (my_system.magnetization_spin(S))*(my_system.magnetization_spin(S));
-			
-		ofile1 << my_system.energy_spin(S) << my_system.magnetization_spin(S) << endl;
+		m2_mean += (my_system.magnetization_spin(S))*(my_system.magnetization_spin(S));
+		
+		ofile1 << my_system.energy_spin(S) << "   " << my_system.magnetization_spin(S) << endl;
 		
 	}
 
