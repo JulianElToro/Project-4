@@ -19,7 +19,8 @@ int main() {
         int L = 2;  //Lenght of the lattice
         double T = 1.0;  //Temperature in J/kB
 
-  //Set up for generating random numbers
+
+	//Set up for generating random numbers
 
         random_device rd;
         mt19937 mt(rd());
@@ -33,7 +34,7 @@ int main() {
 
 
         //After that, we create elements to storage important things later
-  
+
         mat S(L, L);
 
         int k, l;
@@ -45,7 +46,8 @@ int main() {
         m2_mean = 0.0;
         Cv_value = 0.0;
         X_value = 0.0;
-  
+
+
         //We fill the system matrix with spins that cann be random (if true) or all of them pointing up (if false)
 
         my_system.create_matrix(S, true);
@@ -77,9 +79,11 @@ int main() {
                 ofile1 << my_system.energy_spin(S) << "   " << my_system.magnetization_spin(S) << endl;
 
         }
-  
-  
- //After that, we calculate the mean of the energy and the magnetization per spin, and of their squares. Then
+
+
+
+
+	//After that, we calculate the mean of the energy and the magnetization per spin, and of their squares. Finally, we obtain Cv and X and we storage everything in another file
 
         e_mean = e_mean / MC_cycles;
 
@@ -103,9 +107,3 @@ int main() {
         return 0;
 
 }
-
-
-        
-  
-  
-  
