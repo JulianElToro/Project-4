@@ -15,22 +15,24 @@ with  open("Ising_L20_T1_unordered.txt", "r") as  infile:
         average_magnetization.append(float(vals [1]))
         
 #Plot
-n=1000       
-n_MMC = np.linspace(1 , n, 1000)
+n=100000      
+n_MMC = np.linspace(1 , n, 100000)
 
 plt.figure()
 plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
-plt.title("Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles", fontsize=10)
+
+plt.title(r'Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles for T=1J/$k_B$ (unordered)', fontsize=10)
+
 plt.ylabel("⟨ϵ⟩" )
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
 
 #The graph is saved in a PDF file
-plt.savefig("Ising_L20_T1_E_unordered.pdf")
+plt.savefig("Ising_L20_T1_e_unordered.pdf")
 
 plt.figure()
 plt.plot(n_MMC, average_magnetization, "ob", mfc="b", mec = "b", ms=2)
-plt.title("Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles", fontsize=10)
+plt.title(r'Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles for T=1J/$k_B$ (unordered)', fontsize=10)
 plt.ylabel("⟨|m|⟩")
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
