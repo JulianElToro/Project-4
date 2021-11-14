@@ -9,11 +9,6 @@ int main() {
 	ofile1.open("Ising_L20_T1_histogram.txt");
 	ofile1 << scientific;
 
-	ofstream ofile2;
-        ofile2.open("Ising_L20_T1_means.txt");
-        ofile2 << scientific;
-
-
 
 
 
@@ -42,23 +37,17 @@ int main() {
 
 	int k, l;
 
-	double e_sum, e_mean, m_sum, m_mean;
-        e_sum = 0;
-	e_mean = 0;
-	m_sum = 0;
-	m_mean = 0;
-
 
 	//We fill S with a random configuration (if true) or with all the spins being up (if false)
 
-	my_system.create_matrix(S, false);
+	my_system.create_matrix(S, true);
 
 
 
 
 	//Once we have done this previous settings, let's start with the MCMC method. For that, we first set the number of MCMC cycles that we want to perform.
 
-	int MC_cycles = 1000;
+	int MC_cycles = 100000;
 
 	for (int i = 0; i < MC_cycles; i++) {
 
@@ -67,32 +56,20 @@ int main() {
 		my_system.MCMC(S, k, l);
 
 
-		//Then we sum the energy and magnetization per spin of the new state to the one from the states we've sampled before that to do the mean later
+		if (i >= 15000){
 
-		e_sum += my_system.energy_spin(S);
+			//We store the energy and the magnetization per spin of the current state
 
-		m_sum += abs(my_system.magnetization_spin(S));
+			ofile1 << my_system.energy_spin(S) << endl;
 
-
-		//We store the energy and the magnetization per spin of the current state
-
-		ofile1 << my_system.energy_spin(S) << "   " << my_system.magnetization_spin(S) << endl;
+		}
 
 	}
 
 
 	//Finally, we obtain the mean of both quantities and store them in another file
 
-	e_mean = e_sum / MC_cycles;
-
-	m_mean = m_sum / MC_cycles;
-
-	ofile2 << e_mean << "   " << m_mean << endl;
-
-
 	ofile1.close();
-
-	ofile2.close();
 
 	return 0;
 
