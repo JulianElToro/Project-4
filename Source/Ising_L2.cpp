@@ -70,7 +70,7 @@ int main() {
 
                 e_mean += my_system.energy_spin(S);
 
-                m_mean += my_system.magnetization_spin(S);
+                m_mean += abs(my_system.magnetization_spin(S));
 
                 e2_mean += (my_system.energy_spin(S))*(my_system.energy_spin(S));
 
