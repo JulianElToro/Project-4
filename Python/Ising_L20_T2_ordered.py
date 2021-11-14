@@ -23,8 +23,6 @@ plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
 plt.title(r'Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles for T=2.4J/$k_B$ (ordered)', fontsize=10)
 plt.ylabel("⟨ϵ⟩" )
 plt.xlabel("Monte Carlo cycles")
-plt.xlim([15000, 120000])
-plt.ylim([-1.3, -1.6])
 
 plt.grid(True) #Grids get painted
 
@@ -36,8 +34,6 @@ plt.plot(n_MMC, average_magnetization, "ob", mfc="b", mec = "b", ms=2)
 plt.title(r'Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles for T=2.4J/$k_B$ (ordered)', fontsize=10)
 plt.ylabel("⟨|m|⟩")
 plt.xlabel("Monte Carlo cycles")
-plt.xlim([15000, 120000])
-plt.ylim([0.75, 0.85])
 plt.grid(True) #Grids get painted
 
 #The graph is saved in a PDF file
