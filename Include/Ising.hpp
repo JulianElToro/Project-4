@@ -26,8 +26,6 @@ public:
 
 	//Then, we declare also the constructor
 
-	Ising() {}
-
 	Ising(double T_in, int L_in, mt19937 mt);
 
 
