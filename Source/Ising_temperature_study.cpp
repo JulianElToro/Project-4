@@ -13,7 +13,7 @@ int main() {
 	//Some integers that we'll need several times
 
 	int MC_cycles = 100000;
-	int N = 10;
+	int N = 100;
         int n = 15000;
 
 
@@ -36,14 +36,16 @@ int main() {
         int k, l;
 
         double e_sum, e2_sum, m_sum, m2_sum;
-        e_sum = 0;
-        e2_sum = 0;
-        m_sum = 0;
-        m2_sum = 0;
+
 
 
 
 	for(int j = 0; j < N; j++){
+
+		e_sum = 0;
+        	e2_sum = 0;
+        	m_sum = 0;
+        	m2_sum = 0;
 
 
 		//Finally we create our system
