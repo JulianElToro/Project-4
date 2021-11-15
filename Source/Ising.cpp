@@ -115,7 +115,7 @@ double Ising::magnetization_spin(mat S) {
 
 double Ising::Cv(double mean_e, double mean_e2) {
 
-    double Cv = (((L_ * L_ * L_ * L_) * mean_e2) - ((L_ * L_) * mean_e * mean_e)) / (T_ * T_);
+    double Cv = ((L_ * L_) * (mean_e2 - (mean_e * mean_e))) / (T_ * T_);
 
     return Cv;
 
@@ -129,7 +129,7 @@ double Ising::Cv(double mean_e, double mean_e2) {
 
 double Ising::X(double mean_m, double mean_m2) {
 
-    double X = (((L_ * L_ * L_ * L_) * mean_m2) - ((L_ * L_) * mean_m * mean_m)) / T_;
+    double X = ((L_ * L_) * (mean_m2 - (mean_m * mean_m))) / T_;
 
     return X;
 
@@ -146,31 +146,32 @@ double Ising::acceptance(mat S, int k, int l) {
     double p;
 
     vec exp_val(2);
-    exp_val(0) = exp(8.0 / T_);
-    exp_val(1) = exp(4.0 / T_);
+    exp_val(0) = exp(-8.0 / T_);
+    exp_val(1) = exp(-4.0 / T_);
 
 
     double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
 
     if (S(k, l) == -1.0) {
 
-        if (s == 4.0 || s == 3.0 || s == 0.0) {
+        if (s == -4.0 || s == 2.0 || s == 0.0) {
 
             p = 1.0;
 
         }
 
 
-        if (s == -3.0) {
+	if (s == 4.0) {
 
-            p = exp_val(1);
+            p = exp_val(0);
 
         }
 
 
-        if (s == -4.0) {
 
-            p = exp_val(0);
+        if (s == 2.0) {
+
+            p = exp_val(1);
 
         }
 
@@ -180,21 +181,21 @@ double Ising::acceptance(mat S, int k, int l) {
 
     if (S(k, l) == 1.0) {
 
-        if (s == 4.0) {
+        if (s == -4.0) {
 
             p = exp_val(0);
 
         }
 
 
-        if (s == 3.0) {
+        if (s == -2.0) {
 
             p = exp_val(1);
 
         }
 
 
-        if (s == 0.0 || s == -3.0 || s == -4.0) {
+        if (s == 0.0 || s == 2.0 || s == 4.0) {
 
             p = 1.0;
 
