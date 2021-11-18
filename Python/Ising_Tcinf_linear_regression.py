@@ -13,7 +13,7 @@ Linv = 1/L
 
 #TcL = np.array[("cositas")]
 
-TcL = np.random.random(4)
+TcL = np.random.random(4)+2
 
 # Linear regression
 
@@ -31,12 +31,12 @@ plt.xlabel(r'$L^-1$')
 
 plt.grid()
 
-plt.text(0.019, 0.7, '$T_c(L) - T_c(L=\infty) = aL^{-1}$')
+plt.text(0.019, 2.7, '$T_c(L) - T_c(L=\infty) = aL^{-1}$')
 
-plt.text( 0.019, 0.67, 'a = '+ str(round(slope,2)) + '  $J/k_B$')
+plt.text( 0.019, 2.67, 'a = '+ str(round(slope,2)) + '  $J/k_B$')
 
-plt.text(0.019, 0.64, r'$T_c(L = \infty) \ = $' + str(round(intercept,2)) + '  $J/k_B$')
+plt.text(0.019, 2.64, r'$T_c(L = \infty) \ = $' + str(round(intercept,2)) + '  $J/k_B$')
 
-plt.text( 0.019 , 0.61, r'$R^2$ = ' + str(round(r_value,2)) )
+plt.text( 0.019 , 2.61, r'$R^2$ = ' + str(round(r_value,2)) )
 
 plt.title( r'Linear regression of $T_c(L)$ and $L^{-1}$ ')
