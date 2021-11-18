@@ -23,7 +23,7 @@ plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
 
 plt.title(r'Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles for T=1J/$k_B$ (unordered)', fontsize=10)
 
-plt.ylabel("⟨ϵ⟩" )
+plt.ylabel("⟨ϵ⟩/$k_B$" )
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
 
