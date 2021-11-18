@@ -102,7 +102,7 @@ double Ising::energy_spin(mat S) {
 
 double Ising::magnetization_spin(mat S) {
 
-    double m = abs(accu(S)) / (L_ * L_);
+    double m = accu(S) / (L_ * L_);
 
     return m;
 
@@ -145,35 +145,24 @@ double Ising::acceptance(mat S, int k, int l) {
 
     double p;
 
-    vec exp_val(2);
-    exp_val(0) = exp(-8.0 / T_);
-    exp_val(1) = exp(-4.0 / T_);
+    vec exp_val(5);
+    exp_val(4) = exp(-8.0 / T_);
+    exp_val(2) = exp(-4.0 / T_);
 
 
     double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
 
     if (S(k, l) == -1.0) {
 
-        if (s == -4.0 || s == 2.0 || s == 0.0) {
+        if (s <= 0) {
 
             p = 1.0;
 
         }
 
-
-	if (s == 4.0) {
-
-            p = exp_val(0);
-
-        }
-
-
-
-        if (s == 2.0) {
-
-            p = exp_val(1);
-
-        }
+	else{
+		p = exp_val(s);
+	}
 
     }
 
@@ -181,25 +170,15 @@ double Ising::acceptance(mat S, int k, int l) {
 
     if (S(k, l) == 1.0) {
 
-        if (s == -4.0) {
-
-            p = exp_val(0);
-
-        }
-
-
-        if (s == -2.0) {
-
-            p = exp_val(1);
-
-        }
-
-
-        if (s == 0.0 || s == 2.0 || s == 4.0) {
+        if (s >= 0) {
 
             p = 1.0;
 
         }
+
+	else{
+		p = exp(-s);
+	}
 
     }
 
