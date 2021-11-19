@@ -35,8 +35,8 @@ plt.hist(average_energy , bins = [-2.03, -2.01, -1.99 , -1.97 , -1.95 ], density
 #Plot of the probability distribution of ϵ 
 plt.plot(e_values , p_e , color = "red", label = r'$p_ϵ(ϵ;T)$')
 plt.title(r'Histogram of ⟨ϵ⟩ for $T=1 \ J/k_B$', fontsize=10)
-plt.xlabel("⟨ϵ⟩" )
-plt.ylabel("Probability density")
+plt.xlabel("⟨ϵ⟩/J" )
+plt.ylabel("Probability density/J$^{-1}$")
 plt.legend() #Legend gets painted
 plt.grid(axis='y' , color = "black" , linewidth = 0.7 ) #Grid of horizontal lines
 #plt.show()
