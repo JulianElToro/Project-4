@@ -38,9 +38,9 @@ plt.hist(average_energy , bins = l_bins ,density = True , rwidth = 0.85 ,color =
 plt.plot(e_values , p_e , color = "red", label = r'$p_ϵ(ϵ;T)$')
 plt.title(r'Histogram of ⟨ϵ⟩ for $T=2.4 \ J/k_B$', fontsize=10)
 plt.xlim(-1.8,-1)
-plt.xlabel("⟨ϵ⟩" )
-plt.ylabel("Probability density")
-plt.grid(axis='y' , color = "black" , linewidth = 0.7 ) #Grid of horizontal lines
+plt.xlabel("⟨ϵ⟩/J")
+plt.ylabel("Probability density/J$^{-1}$")
+plt.grid(axis='y' , color = "black" , linewidth = 0.7) #Grid of horizontal lines
 plt.legend() #Legend gets painted
 #plt.show()
 
