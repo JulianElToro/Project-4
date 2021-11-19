@@ -145,13 +145,23 @@ double Ising::acceptance(mat S, int k, int l) {
 
     double p;
 
-    vec exp_val(5);
-    exp_val(4) = exp(-8.0 / T_);
-    exp_val(2) = exp(-4.0 / T_);
-
-
     double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
 
+    double dE = 2.0 * S(k, l) * s;
+
+    if(dE <= 0){
+
+	p = 1.0;
+
+    }
+
+    else{
+
+	p = exp(dE/T_);
+
+    }
+
+    /*
     if (S(k, l) == -1.0) {
 
         if (s <= 0) {
@@ -181,6 +191,7 @@ double Ising::acceptance(mat S, int k, int l) {
 	}
 
     }
+    */
 
     return p;
 
@@ -191,20 +202,35 @@ double Ising::acceptance(mat S, int k, int l) {
 
 //Method that performs one loop of the Markov Chain Monte Carlo method
 
-void Ising::MCMC(mat& S, int& k, int& l) {
+void Ising::MCMC(mat& S, int& k, int& l, double& q) {
 
-    flip_spin(S, k, l);
+	flip_spin(S, k, l);
 
-    uniform_real_distribution<double> dist_unif(0.0, 1.0);
+	uniform_real_distribution<double> dist_unif(0.0, 1.0);
 
-    double r = dist_unif(mt);
+	double r = dist_unif(mt);
 
-    double a = acceptance(S, k, l);
+	double p;
 
-    if (r > a) {
+	double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
 
-        S(k, l) = -S(k, l);
+	double dE = 2.0 * S(k, l) * s;
 
-    }
+    	double a = acceptance(S, k, l);
+
+    	if (r > a) {
+
+        	S(k, l) = -S(k, l);
+
+		q = 0;
+
+	}
+
+
+	else{
+
+		q = -1;
+
+	}
 
 }

@@ -13,7 +13,7 @@ int main() {
 	//Some integers that we'll need several times
 
 	int MC_cycles = 100000;
-	int N = 100;
+	int N = 10;
         int n = 15000;
 
 
@@ -35,7 +35,7 @@ int main() {
 
         int k, l;
 
-        double e_sum, e2_sum, m_sum, m2_sum;
+        double e_sum, e2_sum, e_mean, e2_mean, m_sum, m2_sum, m_mean, m2_mean, Cv, X;
 
 
 
@@ -44,8 +44,14 @@ int main() {
 
 		e_sum = 0;
         	e2_sum = 0;
+		e_mean = 0;
+		e2_mean = 0;
         	m_sum = 0;
         	m2_sum = 0;
+		m_mean = 0;
+		m2_mean = 0;
+		Cv = 0;
+		X = 0;
 
 
 		//Finally we create our system
@@ -84,15 +90,15 @@ int main() {
 		}
 
 
-		double e_mean = e_sum / (MC_cycles - n);
-		double e2_mean = e2_sum / (MC_cycles - n);
+		e_mean = e_sum / (MC_cycles - n);
+		e2_mean = e2_sum / (MC_cycles - n);
 
-		double m_mean = m_sum / (MC_cycles - n);
-                double m2_mean = m2_sum / (MC_cycles - n);
+		m_mean = m_sum / (MC_cycles - n);
+                m2_mean = m2_sum / (MC_cycles - n);
 
-		double Cv = my_system.Cv(e_mean, e2_mean);
+		Cv = my_system.Cv(e_mean, e2_mean);
 
-        	double X = my_system.X(m_mean, m2_mean);
+        	X = my_system.X(m_mean, m2_mean);
 
 
 		//Finally, we introduce all this results to the file opened before
