@@ -39,7 +39,7 @@ public:
 	double Cv(double mean_e, double mean_e2);
 	double X(double mean_m, double mean_m2);
 	double acceptance(mat S, int k, int l);
-	void MCMC(mat& S, int& k, int& l);
+	void MCMC(mat& S, int& k, int& l, double& q);
 
 };
 
