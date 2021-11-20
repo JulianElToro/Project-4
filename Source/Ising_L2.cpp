@@ -5,11 +5,11 @@ int main() {
         //First we create two files in order to take a look up our results
 
         ofstream ofile1;
-        ofile1.open("MC_test_1000_MC_cycles.txt");
+        ofile1.open("MC_test_energy_magnetization.txt");
         ofile1 << scientific;
 
         ofstream ofile2;
-        ofile2.open("MC_test_1000_MC_cycles2.txt");
+        ofile2.open("MC_test_means.txt");
         ofile2 << scientific;
 
 
@@ -39,7 +39,7 @@ int main() {
 
         int k, l;
 
-        double e_mean, m_mean, e2_mean, m2_mean, Cv_value, X_value;
+        double e_, m_, e_mean, m_mean, e2_mean, m2_mean, Cv_value, X_value, q, dE, dM;
         e_mean = 0.0;
         m_mean = 0.0;
         e2_mean = 0.0;
@@ -52,31 +52,52 @@ int main() {
 
         my_system.create_matrix(S, true);
 
+	e_ = my_system.energy_spin(S);
+
+	m_ = abs(my_system.energy_spin(S));
+
+	S.print("S=");
+
+	cout << "m=" << m_ << endl;
+
 
 
 
         //Now that we have done all the previous set up, we can start with the MCMC method. For that, we first set the number of cycles
 
-        int MC_cycles = 1000;
+        int MC_cycles = 10000;
 
         for (int i = 0; i < MC_cycles; i++) {
 
                 //We do one time the MCMC, obtaining a new state (or keeping the one from before)
 
-                my_system.MCMC(S, k, l);
+                my_system.MCMC(S, k, l, q, dE, dM);
+
+		//S.print("S=");
 
 
                 //Then, we calculate the energy and the magnetization per spin and their squares. We storage them in a file and we also sum t>
 
-                e_mean += my_system.energy_spin(S);
+		e_ += q * (dE / (L*L));
 
-                m_mean += abs(my_system.magnetization_spin(S));
+                m_ += q * ( dM / (L*L) );
 
-                e2_mean += (my_system.energy_spin(S))*(my_system.energy_spin(S));
+		e_mean += e_;
 
-                m2_mean += (my_system.magnetization_spin(S))*(my_system.magnetization_spin(S));
+		m_mean += abs(m_);
 
-                ofile1 << my_system.energy_spin(S) << "   " << my_system.magnetization_spin(S) << endl;
+                e2_mean += (e_ * e_);
+
+                m2_mean += (m_ * m_);
+
+                ofile1 << e_ << "   " << m_ << endl;
+
+
+		if ( i <= 5){
+
+			S.print("S=");
+
+		}
 
         }
 
@@ -97,7 +118,7 @@ int main() {
 
         X_value = my_system.X(m_mean, m2_mean);
 
-        ofile2 << e_mean << "    " << m_mean << "    " << e2_mean << "    " << m2_mean << endl;
+        ofile2 << e_mean << "    " << m_mean << "    " << e2_mean << "    " << m2_mean << " " << Cv_value << " " << X_value << endl;
 
         ofile1.close();
 
