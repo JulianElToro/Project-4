@@ -55,18 +55,18 @@ int main() {
 
 	e_ = my_system.energy_spin(S);
 
-	m_ = abs(my_system.magnetization_spin(S));
+	m_ = my_system.magnetization_spin(S);
 
-	S.print("S=");
+	//S.print("S=");
 
-	cout << "m=" << m_ << endl;
+	//cout << "m=" << m_ << endl;
 
 
 
 
         //Now that we have done all the previous set up, we can start with the MCMC method. For that, we first set the number of cycles
 
-        int MC_cycles = 10000;
+        int MC_cycles = 100000;
 
         for (int i = 0; i < MC_cycles; i++) {
 
@@ -94,11 +94,11 @@ int main() {
                 ofile1 << e_ << "   " << m_ << endl;
 
 
-		if ( i <= 5){
+		/*if ( i <= 5){
 
 			S.print("S=");
 
-		}
+		}*/
 
         }
 
