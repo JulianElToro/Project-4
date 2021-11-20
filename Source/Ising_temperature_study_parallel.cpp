@@ -13,12 +13,13 @@ int main() {
 
 	int MC_cycles = 1000000;  //Number of MCMC cycles
 	int N = 100;  //Number of temperatures in which we divide the interval of temperature
-        int n = 15000;  //Number of data that we neglect from the beggining(due to burn-in time)
+	int n = 15000;  //Number of data that we neglect from the beggining(due to burn-in time)
+	double N_size = 1.0 * L * L;
 
 
-	//Then, we introduce the characteristics of the system
+//Then, we introduce the characteristics of the system
 
-	int L = 20;  //Length of the lattice
+	int L = 40;  //Length of the lattice
 	vec T = linspace(2.1, 2.4, N);  //Vector of temperatures
 
 
@@ -37,135 +38,132 @@ int main() {
 
 	//Here we start the parallelize area
 
-	#pragma omp parallel
+#pragma omp parallel
 	{
 
 		//Now, we define some elements that we will fill out later
 
 		mat S(L, L);  //Matrix representing the lattice
 
-	        int k, l;
+		int k, l;
 
-        	double e_, e2_, e_sum, e2_sum, e_mean, e2_mean, m_, m2_, m_sum, m2_sum, m_mean, m2_mean, Cv, X, q, dE;
-
+		double e_, m_, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
+		
 
 		// Prepare for file output
 
-    		static int print_prec = 10;  //Number of decimal positions.(???)
+		static int print_prec = 10;  //Number of decimal positions.(???)
 
-    		// Each thread will get its own output file name
+		// Each thread will get its own output file name
 
-    		const int my_thread = omp_get_thread_num();
-    		ofstream ofile;
-    		string my_output_file_name = output_file_name + ".thread_" + to_string(my_thread);
-    		ofile.open(my_output_file_name.c_str(), ofstream::trunc);  // ofstream::trunc makes sure old content is deleted
+		const int my_thread = omp_get_thread_num();
+		ofstream ofile;
+		string my_output_file_name = output_file_name + ".thread_" + to_string(my_thread);
+		ofile.open(my_output_file_name.c_str(), ofstream::trunc);  // ofstream::trunc makes sure old content is deleted
 		ofile << setprecision(print_prec) << scientific;
 
+		
 
 		//Now we start the paralellized loop over j
 
-		#pragma omp for
+#pragma omp for
 
-			for(int j = 0; j < N; j++){
+		for (int j = 0; j < N; j++) {
 
-				//We set to zero the quantities from the last loop
+			//We set to zero the quantities from the last loop
 
-				e_ = 0;
-				e2_ = 0;
-				e_sum = 0;
-        			e2_sum = 0;
-				e_mean = 0;
-				e2_mean = 0;
-				m_ = 0;
-				m2_ = 0;
-        			m_sum = 0;
-        			m2_sum = 0;
-				m_mean = 0;
-				m2_mean = 0;
-				Cv = 0;
-				X = 0;
+			e_mean = 0.0;
+			m_mean = 0.0;
+			e2_mean = 0.0;
+			m2_mean = 0.0;
+			Cv_value = 0.0;
+			X_value = 0.0;
+			dM = 0.0;
+						
+			//We create our system
+
+			Ising my_system(T(j), L, mt);
 
 
-				//We create our system
+			//We fill S with a random configuration (if true) or with all the spins being up (if false)
 
-				Ising my_system(T(j), L, mt);
+			my_system.create_matrix(S, true);
 
+			//Once we have done this previous settings, let's start with the MCMC method
 
-				//We fill S with a random configuration (if true) or with all the spins being up (if false)
+			for (int i = 0; i < MC_cycles; i++) {
 
-				my_system.create_matrix(S, true);
+				//We perform a cycle of MCMC
 
-
-				//Once we have done this previous settings, let's start with the MCMC method
-
-				for (int i = 0; i < MC_cycles; i++){
-
-					//We perform a cycle of MCMC
-
-					my_system.MCMC(S, k, l, q, dE);
+				my_system.MCMC(S, k, l, q, dE, dM);
 
 
-					//We calculate the energy for the step n(the first after the burning time)
+				//We calculate the energy for the step n(the first after the burning time)
 
-					if (i == n){
+				if (i == n) {
 
-						e_ = my_system.energy_spin(S);
-                                                e2_ = (my_system.energy_spin(S)) * (my_system.energy_spin(S));
-						e_sum = e_;
-						e2_sum = e2_;
+					e_ = my_system.energy_spin(S);
 
+					m_ = my_system.magnetization_spin(S);
 
-						m_ = abs(my_system.magnetization_spin(S));
-                                                m2_ = (my_system.magnetization_spin(S)) * (my_system.magnetization_spin(S));
-						m_sum = m_;
-						m2_sum = m2_;
+					e_mean = e_;
 
-					}
+					m_mean = abs(m_);
 
+					e2_mean = (e_ * e_);
 
-					//After that, we sum in every step the diference between the energy of the step before and the current one
-
-					if (i > n){
-
-        	                                double dM = S(k,l) * 2.0 / (L*L);
-
-						//Then we sum the energy and magnetization per spin of the new state to the one from the states we've sampled before that(and also their squares)
-
-						e_ += q * ( dE / (L*L) );  //e of this step
-
-						e_sum += e_;  //Sum of all the energy from the step n
-						e2_sum += (e_ * e_);  //Same for e²
-
-
-                                                m_ += q * dM;  //m of this step
-
-						m_sum += abs(m_);  //Sum of all the magnetizations from the step n
-						m2_sum += (m_ * m_);  //Same for m²
-
-					}
+					m2_mean = (m_ * m_);
 
 				}
 
 
-				//Finally, we calculate the means, Cv, X and store everything
+				//After that, we sum in every step the diference between the energy of the step before and the current one
 
-				e_mean = e_sum / (MC_cycles - n);
-		                e2_mean = e2_sum / (MC_cycles - n);
+				if (i > n) {
 
-                		m_mean = m_sum / (MC_cycles - n);
-                		m2_mean = m2_sum / (MC_cycles - n);
+					double dM = S(k, l) * 2.0 / N_size;
 
-                		Cv = my_system.Cv(e_mean, e2_mean);
+					//Then we sum the energy and magnetization per spin of the new state to the one from the states we've sampled before that(and also their squares)
 
-                		X = my_system.X(m_mean, m2_mean);
+					e_ += q * (dE / N_size); //e of this step
 
+					m_ += q * (dM / N_size); //m of this step
 
-                		//Finally, we introduce all this results to the file opened before
+					e_mean += e_; // Sum of all the energy from the step n
 
-                		ofile << T(j) << "   " << e_mean << "   " << m_mean << "   " << Cv << "   " << X << endl;
+					m_mean += abs(m_); //Sum of all the magnetizations from the step n
 
+					e2_mean += (e_ * e_); // Same for e²
+
+					m2_mean += (m_ * m_); //Same for m²
+
+				}
 
 			}
+
+
+			//Finally, we calculate the means, Cv, X and store everything
+
+			e_mean = e_mean / MC_cycles;
+
+			m_mean = m_mean / MC_cycles;
+
+			e2_mean = e2_mean / MC_cycles;
+
+			m2_mean = m2_mean / MC_cycles;
+
+			Cv_value = my_system.Cv(e_mean, e2_mean);
+
+			X_value = my_system.X(m_mean, m2_mean);
+
+
+
+			//Finally, we introduce all this results to the file opened before
+
+			ofile << T(j) << "   " << e_mean << "   " << m_mean << "   " << Cv_value << "   " << X_value << endl;
+
+
+		}
 
 	}
 
