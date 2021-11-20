@@ -32,14 +32,13 @@ public:
 	//Finally, we declare some methods for calculating some important things
 
 	void create_matrix(mat& S, bool random);
-	void flip_spin(mat& S, int& k, int& l);
-	//void boundary_conditions(mat& S_, mat S);
+	//void flip_spin(mat& S, int& k, int& l);
 	double energy_spin(mat S);
 	double magnetization_spin(mat S);
 	double Cv(double mean_e, double mean_e2);
 	double X(double mean_m, double mean_m2);
-	double acceptance(mat S, int k, int l);
-	void MCMC(mat& S, int& k, int& l, double& q);
+	double acceptance(mat S, int k, int l, double& dE);
+	void MCMC(mat& S, int& k, int& l, double& q, double& dE);
 
 };
 
