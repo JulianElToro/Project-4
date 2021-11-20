@@ -18,7 +18,7 @@ Ising::Ising(double T_in, int L_in, mt19937 mt_in) {
 
 void Ising::create_matrix(mat& S, bool random) {
 
-    uniform_int_distribution<int> dist_int(0, 1);
+    uniform_int_distribution<int> dist_int1(0, 1);
 
     if (random) {
 
@@ -26,7 +26,7 @@ void Ising::create_matrix(mat& S, bool random) {
 
             for (int j = 0; j < L_; j++) {
 
-                S(i, j) = static_cast<double>(dist_int(mt));
+                S(i, j) = static_cast<double>(dist_int1(mt));
 
             }
 
@@ -102,9 +102,9 @@ double Ising::energy_spin(mat S) {
 
 double Ising::magnetization_spin(mat S) {
 
-    double m = accu(S) / (L_ * L_);
+	double m = accu(S) /  (L_ * L_);
 
-    return m;
+    	return m;
 
 }
 
@@ -115,7 +115,7 @@ double Ising::magnetization_spin(mat S) {
 
 double Ising::Cv(double mean_e, double mean_e2) {
 
-    double Cv = ((L_ * L_) * (mean_e2 - (mean_e * mean_e))) / (T_ * T_);
+    double Cv = (L_ * L_) * (mean_e2 - (mean_e * mean_e)) / (T_ * T_);
 
     return Cv;
 
@@ -129,7 +129,7 @@ double Ising::Cv(double mean_e, double mean_e2) {
 
 double Ising::X(double mean_m, double mean_m2) {
 
-    double X = ((L_ * L_) * (mean_m2 - (mean_m * mean_m))) / T_;
+    double X = (L_ * L_) * (mean_m2 - (mean_m * mean_m)) / T_;
 
     return X;
 
@@ -170,12 +170,12 @@ double Ising::acceptance(mat S, int k, int l, double& dE) {
 
 //Method that performs one loop of the Markov Chain Monte Carlo method
 
-void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE) {
+void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE, double& dM) {
 
-	uniform_int_distribution<int> dist_int(0, L_ - 1);
+	uniform_int_distribution<int> dist_int2(0, L_ - 1);
 
-    	k = (dist_int(mt));
-    	l = (dist_int(mt));
+    	k = (dist_int2(mt));
+    	l = (dist_int2(mt));
 
 	//flip_spin(S, k, l);
 
@@ -189,6 +189,8 @@ void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE) {
 
         	S(k, l) = -S(k, l);
 
+		dM = -S(k,l) * 2.0;
+
 		q = 1;
 
 	}
@@ -199,5 +201,8 @@ void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE) {
 		q = 0;
 
 	}
+
+
+	//cout << "a=" << a << " " << "r=" << r << endl;
 
 }

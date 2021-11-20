@@ -54,7 +54,7 @@ int main() {
 
 	e_ = my_system.energy_spin(S);
 
-	m_ = abs(my_system.energy_spin(S));
+	m_ = abs(my_system.magnetization_spin(S));
 
 	S.print("S=");
 
