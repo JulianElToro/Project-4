@@ -48,7 +48,7 @@ void Ising::create_matrix(mat& S, bool random) {
 
 //Method that flips one random spin, i.e it changes its sign
 
-void Ising::flip_spin(mat& S, int& k, int& l) {
+/*void Ising::flip_spin(mat& S, int& k, int& l) {
 
     uniform_int_distribution<int> dist_int(0, L_ - 1);
 
@@ -57,7 +57,7 @@ void Ising::flip_spin(mat& S, int& k, int& l) {
 
     S(k, l) = -S(k, l);
 
-}
+}*/
 
 
 
@@ -141,13 +141,13 @@ double Ising::X(double mean_m, double mean_m2) {
 
 //Method that calculates the acceptance probability
 
-double Ising::acceptance(mat S, int k, int l) {
+double Ising::acceptance(mat S, int k, int l, double& dE) {
 
     double p;
 
     double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
 
-    double dE = 2.0 * S(k, l) * s;
+    dE = 2.0 * S(k, l) * s;
 
     if(dE <= 0){
 
@@ -157,41 +157,9 @@ double Ising::acceptance(mat S, int k, int l) {
 
     else{
 
-	p = exp(dE/T_);
+	p = exp(-dE/T_);
 
     }
-
-    /*
-    if (S(k, l) == -1.0) {
-
-        if (s <= 0) {
-
-            p = 1.0;
-
-        }
-
-	else{
-		p = exp_val(s);
-	}
-
-    }
-
-
-
-    if (S(k, l) == 1.0) {
-
-        if (s >= 0) {
-
-            p = 1.0;
-
-        }
-
-	else{
-		p = exp(-s);
-	}
-
-    }
-    */
 
     return p;
 
@@ -202,34 +170,33 @@ double Ising::acceptance(mat S, int k, int l) {
 
 //Method that performs one loop of the Markov Chain Monte Carlo method
 
-void Ising::MCMC(mat& S, int& k, int& l, double& q) {
+void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE) {
 
-	flip_spin(S, k, l);
+	uniform_int_distribution<int> dist_int(0, L_ - 1);
+
+    	k = (dist_int(mt));
+    	l = (dist_int(mt));
+
+	//flip_spin(S, k, l);
+
+	double a = acceptance(S, k, l, dE);
 
 	uniform_real_distribution<double> dist_unif(0.0, 1.0);
 
 	double r = dist_unif(mt);
 
-	double p;
-
-	double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
-
-	double dE = 2.0 * S(k, l) * s;
-
-    	double a = acceptance(S, k, l);
-
-    	if (r > a) {
+    	if (r <= a) {
 
         	S(k, l) = -S(k, l);
 
-		q = 0;
+		q = 1;
 
 	}
 
 
 	else{
 
-		q = -1;
+		q = 0;
 
 	}
 
