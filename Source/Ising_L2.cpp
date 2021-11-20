@@ -17,6 +17,7 @@ int main() {
         //Then, we set up the characteristics of our system
 
         int L = 2;  //Lenght of the lattice
+	double N = static_cast<double>(L) * static_cast<double>(L);
         double T = 1.0;  //Temperature in J/kB
 
 
@@ -28,7 +29,7 @@ int main() {
 
         //We create the system
 
-        Ising my_system(T, L, mt);
+        Ising my_system(T, L, N, mt);
 
 
 
@@ -39,11 +40,11 @@ int main() {
 
         int k, l;
 
-        double e_, m_, e_mean, m_mean, e2_mean, m2_mean, Cv_value, X_value, q, dE, dM;
+        double e_, m_, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
         e_mean = 0.0;
         m_mean = 0.0;
-        e2_mean = 0.0;
-        m2_mean = 0.0;
+	e2_mean = 0.0;
+	m2_mean = 0.0;
         Cv_value = 0.0;
         X_value = 0.0;
 	dM = 0.0;
@@ -66,7 +67,7 @@ int main() {
 
         //Now that we have done all the previous set up, we can start with the MCMC method. For that, we first set the number of cycles
 
-        int MC_cycles = 100000;
+        int MC_cycles = 1000000;
 
         for (int i = 0; i < MC_cycles; i++) {
 
@@ -79,9 +80,9 @@ int main() {
 
                 //Then, we calculate the energy and the magnetization per spin and their squares. We storage them in a file and we also sum t>
 
-		e_ += q * (dE / (L*L));
+		e_ += q * (dE / N);
 
-                m_ += q * ( dM / (L*L) );
+                m_ += q * ( dM / N );
 
 		e_mean += e_;
 
@@ -111,15 +112,15 @@ int main() {
 
         m_mean = m_mean / MC_cycles;
 
-        e2_mean = e2_mean / MC_cycles;
+	e2_mean = e2_mean / MC_cycles;
 
-        m2_mean = m2_mean / MC_cycles;
+	m2_mean = m2_mean / MC_cycles;
 
         Cv_value = my_system.Cv(e_mean, e2_mean);
 
         X_value = my_system.X(m_mean, m2_mean);
 
-        ofile2 << e_mean << "    " << m_mean << "    " << e2_mean << "    " << m2_mean << " " << Cv_value << " " << X_value << endl;
+        ofile2 << e_mean << "    " << m_mean << "    " << e2_mean << "    " << m2_mean << "    " << Cv_value << "    " << X_value << endl;
 
         ofile1.close();
 
