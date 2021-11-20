@@ -46,6 +46,7 @@ int main() {
         m2_mean = 0.0;
         Cv_value = 0.0;
         X_value = 0.0;
+	dM = 0.0;
 
 
         //We fill the system matrix with spins that cann be random (if true) or all of them pointing up (if false)
