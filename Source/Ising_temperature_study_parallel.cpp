@@ -11,14 +11,14 @@ int main() {
 
 	//Some integers that we'll need several times
 
-	int MC_cycles = 1000000;  //Number of MCMC cycles
+	int MC_cycles = 2000000;  //Number of MCMC cycles
 	int N = 100;  //Number of temperatures in which we divide the interval of temperature
 	int n = 100000;  //Number of data that we neglect from the beggining(due to burn-in time)
 
 
 	//Then, we introduce the characteristics of the system
 
-	int L = 40;  //Length of the lattice
+	int L = 60;  //Length of the lattice
 	double N_size = 1.0 * L * L;
 	vec T = linspace(2.1, 2.4, N);  //Vector of temperatures
 
@@ -35,7 +35,7 @@ int main() {
 
 
 	ofstream ofile;
-        ofile.open("Ising_L40_tsp.txt");
+        ofile.open("Ising_L60_tsp.txt");
         ofile << scientific;
 
 
@@ -122,7 +122,7 @@ int main() {
 				}
 
 
-				//After that, we sum in every step the diference between the energy of the step before and the current one
+				//After that, we add to the energy and magnetization in every step the diference between their values on the step before and the current one
 
 				if (i > n) {
 
@@ -132,7 +132,7 @@ int main() {
 
 					m_ += q * (dM / N_size); //m of this step
 
-					e_mean += e_; // Sum of all the energy from the step n
+					e_mean += e_; //Sum of all the energies from the step n
 
 					m_mean += abs(m_); //Sum of all the magnetizations from the step n
 
