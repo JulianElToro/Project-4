@@ -6,7 +6,7 @@ int main() {
 	//First of all, we create a file to store the data we are going to obtain
 
 	ofstream ofile;
-	ofile.open("Ising_L20_T1_ordered.txt");  //That is an example name, but with this file we have generated four different files
+	ofile.open("Ising_L20_T1_ordered.txt");  //That is an example name, but with this program we have generated four different files
 	ofile << scientific;
 
 
@@ -15,7 +15,7 @@ int main() {
 	//Then, we introduce the characteristics of the system
 
 	int L = 20;  //Length of the lattice
-	double N_size = 1.0 * (L*L);
+	double N_size = 1.0 * (L * L);  //Number of spins in the lattice
 	double T = 1.0;  //Temperature. This is something you can change for generating different data
 
 
