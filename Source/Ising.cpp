@@ -47,22 +47,6 @@ void Ising::create_matrix(mat& S, bool random) {
 
 
 
-//Method that flips one random spin, i.e it changes its sign
-
-/*void Ising::flip_spin(mat& S, int& k, int& l) {
-
-    uniform_int_distribution<int> dist_int(0, L_ - 1);
-
-    k = (dist_int(mt));
-    l = (dist_int(mt));
-
-    S(k, l) = -S(k, l);
-
-}*/
-
-
-
-
 //Method that calculates the energy per spin of the system
 
 double Ising::energy_spin(mat S) {
@@ -112,7 +96,7 @@ double Ising::magnetization_spin(mat S) {
 
 
 
-//Method that calculates the Cv
+//Method that calculates the Cv (heat capacity)
 
 double Ising::Cv(double mean_e, double mean_e2) {
 
@@ -146,9 +130,9 @@ double Ising::acceptance(mat S, int k, int l, double& dE) {
 
     double p;
 
-    double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);
+    double s = S((L_ + (k - 1)) % L_, l) + S((L_ + (k + 1)) % L_, l) + S(k, (L_ + (l - 1)) % L_) + S(k, (L_ + (l + 1)) % L_);  //Here we sum over the elements surrounding the spin we flip
 
-    dE = 2.0 * S(k, l) * s;
+    dE = 2.0 * S(k, l) * s;  //Difference between the energies of the system before and after fliping the spin
 
     if(dE <= 0){
 
@@ -173,18 +157,24 @@ double Ising::acceptance(mat S, int k, int l, double& dE) {
 
 void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE, double& dM) {
 
+	//First, we pick a random spin to flip
+
 	uniform_int_distribution<int> dist_int2(0, L_ - 1);
 
     	k = (dist_int2(mt));
     	l = (dist_int2(mt));
 
-	//flip_spin(S, k, l);
+
+	//Before fliping it, we calculate if that flip would be accepted
 
 	double a = acceptance(S, k, l, dE);
 
 	uniform_real_distribution<double> dist_unif(0.0, 1.0);
 
 	double r = dist_unif(mt);
+
+
+	//If accepted, we will flip the spin, calculate the difference in the magnetization and we will switch the parameter q to 1. That last thing will allow the energy and the magnetization to be updated
 
     	if (r <= a) {
 
@@ -197,13 +187,12 @@ void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE, double& dM) {
 	}
 
 
+	//If we reject the flip, we just set q to zero so the values for the energy and the magnetization will stay the same
+
 	else{
 
 		q = 0;
 
 	}
-
-
-	//cout << "a=" << a << " " << "r=" << r << endl;
 
 }
