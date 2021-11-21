@@ -22,11 +22,13 @@ public:
 
 	int L_;
 
+	double N_;
+
 	mt19937 mt;
 
 	//Then, we declare also the constructor
 
-	Ising(double T_in, int L_in, mt19937 mt);
+	Ising(double T_in, int L_in, double N,  mt19937 mt);
 
 
 	//Finally, we declare some methods for calculating some important things
