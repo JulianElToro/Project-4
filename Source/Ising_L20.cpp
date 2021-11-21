@@ -89,9 +89,9 @@ int main() {
 
 		//Finally we calculate the means after the i+1 steps that we already did
 
-		e_mean = e_sum / (1.0*i+1);
+		e_mean = e_sum / ( (1.0*i) + 1.0 );
 
-		m_mean = m_sum / (1.0*i+1);
+		m_mean = m_sum / ( (1.0*i) + 1.0 );
 
 
 
