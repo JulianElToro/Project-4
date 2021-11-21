@@ -28,7 +28,7 @@ public:
 
 	//Then, we declare also the constructor
 
-	Ising(double T_in, int L_in, double N,  mt19937 mt);
+	Ising(double T_in, int L_in, double N_in,  mt19937 mt);
 
 
 	//Finally, we declare some methods for calculating some important things
