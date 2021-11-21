@@ -15,6 +15,7 @@ int main() {
 	//Then, we introduce the characteristics of the system
 
 	int L = 20;  //Length of the lattice
+	double N = static_cast<double>(L) * static_cast<double>(L);
 	double T = 1.0;  //Temperature. This is something you can change for generating different data
 
 
@@ -26,7 +27,7 @@ int main() {
 
 	//Finally we create our system
 
-	Ising my_system(T, L, mt);
+	Ising my_system(T, L, N, mt);
 
 
 
@@ -37,30 +38,37 @@ int main() {
 
 	int k, l;
 
+	double q, dE, dM;
+
 
 	//We fill S with a random configuration (if true) or with all the spins being up (if false)
 
 	my_system.create_matrix(S, true);
+
+	e_ = my_system.energy_spin(S);
+
+        m_ = my_system.magnetization_spin(S);
 
 
 
 
 	//Once we have done this previous settings, let's start with the MCMC method. For that, we first set the number of MCMC cycles that we want to perform.
 
-	int MC_cycles = 100000;
+	int MC_cycles = 1000000;
+	int n = 15000;  //Burn-in time
 
 	for (int i = 0; i < MC_cycles; i++) {
 
 		//We perform a cycle of MCMC
 
-		my_system.MCMC(S, k, l);
+		my_system.MCMC(S, k, l, q, dE, dM);
 
 
-		if (i >= 15000){
+		if (i >= n){
 
 			//We store the energy and the magnetization per spin of the current state
 
-			ofile1 << my_system.energy_spin(S) << endl;
+			ofile1 << (q * (dE / N)) << endl;
 
 		}
 
