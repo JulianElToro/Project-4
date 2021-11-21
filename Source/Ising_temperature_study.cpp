@@ -6,7 +6,7 @@ int main() {
 	//First of all, we create a file to store the data we are going to obtain
 
 	ofstream ofile;
-	ofile.open("Ising_L60_ts.txt");  //That is an example name, but with this file we have generated four different files
+	ofile.open("Ising_L60_ts.txt");  //That is an example name, but you can change it if you want to generate different data with this program
 	ofile << scientific;
 
 
@@ -14,7 +14,7 @@ int main() {
 
 	int MC_cycles = 2000000;  //Number of MCMC cycles
 	int N = 100;  //Number of temperatures that we will study
-        int n = 100000;  //Burn in time(we will take into account the energies and magnetizations from this step)
+        int n = 100000;  //Burn in time(we will take into account the energies and magnetizations from this step on)
 
 
 	//Then, we introduce the characteristics of the system
@@ -36,7 +36,7 @@ int main() {
 
         int k, l;
 
-        double e_, m_, e_mean, e2_mean, m_mean, m2_mean, Cv, X, q, dE, dM;
+        double e_value, m_value, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
 
 
 	//Then, we start the loop over the temperatures
@@ -47,8 +47,8 @@ int main() {
 		e2_mean = 0.0;
 		m_mean = 0.0;
 		m2_mean = 0.0;
-		Cv = 0.0;
-		X = 0.0;
+		Cv_value = 0.0;
+		X_value = 0.0;
 		dM = 0.0;
 
 
@@ -62,7 +62,7 @@ int main() {
 		my_system.create_matrix(S, true);
 
 
-		//Once we have done this previous settings, let's start with the MCMC method. For that, we first set the number of MCMC cycles that we want to perform.
+		//Now, let's start with the MCMC method
 
 		for (int i = 0; i < MC_cycles; i++) {
 
@@ -75,17 +75,17 @@ int main() {
 
 			if (i == n){
 
-				e_ = my_system.energy_spin(S);
+				e_value = my_system.energy_spin(S);
 
-				m_ = my_system.magnetization_spin(S);
+				m_value = my_system.magnetization_spin(S);
 
-				e_mean = e_;
+				e_mean = e_value;
 
-				m_mean = abs(m_);
+				m_mean = abs(m_value);
 
-				e2_mean = (e_ * e_);
+				e2_mean = (e_value * e_value);
 
-				m2_mean = (m_ * m_);
+				m2_mean = (m_value * m_value);
 
 			}
 
@@ -95,14 +95,14 @@ int main() {
 
 			if (i > n){
 
-				e_ += q * (dE / N_size);  //e of this step
-				m_ += q * (dM / N_size);  //m of this step
+				e_value += q * (dE / N_size);  //e of this step
+				m_value += q * (dM / N_size);  //m of this step
 
-				e_mean += e_;  //Sum of all the energies from the step n
-				m_mean += abs(m_);  //Sum of all the magnetizations from the step n
+				e_mean += e_value;  //Sum of all the energies from the step n
+				m_mean += abs(m_value);  //Sum of all the magnetizations from the step n
 
-				e2_mean += (e_ * e_);  //Same for e²
-				m2_mean += (m_ * m_);  //Same for m²
+				e2_mean += (e_value * e_value);  //Same for e²
+				m2_mean += (m_value * m_value);  //Same for m²
 
 			}
 
@@ -117,14 +117,11 @@ int main() {
 		e2_mean = e2_mean / (MC_cycles - n);
                 m2_mean = m2_mean / (MC_cycles - n);
 
-		Cv = my_system.Cv(e_mean, e2_mean);
+		Cv_value = my_system.Cv(e_mean, e2_mean);
 
-        	X = my_system.X(m_mean, m2_mean);
+        	X_value = my_system.X(m_mean, m2_mean);
 
-
-		//Finally, we introduce all this results to the file opened before
-
-        	ofile << T(j) << "   " << e_mean << "   " << m_mean << "   " << Cv << "   " << X << endl;
+        	ofile << T(j) << "   " << e_mean << "   " << m_mean << "   " << Cv_value << "   " << X_value << endl;
 
 	}
 
