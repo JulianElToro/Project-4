@@ -2,14 +2,14 @@
 
 int main() {
 
-        //First we create two files in order to take a look up our results
+        //First we create two files in order to take a look of our results
 
         ofstream ofile1;
-        ofile1.open("MC_test_energy_magnetization.txt");
+        ofile1.open("Ising_L2_energy_magnetization.txt");
         ofile1 << scientific;
 
         ofstream ofile2;
-        ofile2.open("MC_test_means.txt");
+        ofile2.open("Ising_L2_means_Cv_X.txt");
         ofile2 << scientific;
 
 
@@ -17,7 +17,7 @@ int main() {
         //Then, we set up the characteristics of our system
 
         int L = 2;  //Lenght of the lattice
-	double N = static_cast<double>(L) * static_cast<double>(L);
+	double N_size = 1.0 * (L * L);  //Number of spins that are inside the lattice
         double T = 1.0;  //Temperature in J/kB
 
 
@@ -29,7 +29,7 @@ int main() {
 
         //We create the system
 
-        Ising my_system(T, L, N, mt);
+        Ising my_system(T, L, N_size, mt);
 
 
 
@@ -40,7 +40,7 @@ int main() {
 
         int k, l;
 
-        double e_, m_, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
+        double e_value, m_value, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
         e_mean = 0.0;
         m_mean = 0.0;
 	e2_mean = 0.0;
@@ -54,18 +54,17 @@ int main() {
 
         my_system.create_matrix(S, true);
 
-	e_ = my_system.energy_spin(S);
 
-	m_ = my_system.magnetization_spin(S);
+	//We calculate the energy and the magnetization of this first matrix
 
-	//S.print("S=");
+	e_value = my_system.energy_spin(S);
 
-	//cout << "m=" << m_ << endl;
-
+	m_value = my_system.magnetization_spin(S);
 
 
 
-        //Now that we have done all the previous set up, we can start with the MCMC method. For that, we first set the number of cycles
+
+        //Now that we have done all the previous set up, we can start with the MCMC method. For that, we first set the number of cycles that  we will perform
 
         int MC_cycles = 1000000;
 
@@ -75,38 +74,32 @@ int main() {
 
                 my_system.MCMC(S, k, l, q, dE, dM);
 
-		//S.print("S=");
+
+                //Then, we calculate the energy and the magnetization per spin of this step and we add those values to the previous ones in order to calculate the mean afterwards
+
+		e_value += q * (dE / N);  //e of this step
+
+                m_value += q * ( dM / N );  //m of this step
+
+		e_mean += e_value;  //Sum of all the energies from this step an the ones before
+
+		m_mean += abs(m_value);  //Sum of all the magnetizations from this step and the ones before
+
+                e2_mean += (e_value * e_value);  //Same with e²
+
+                m2_mean += (m_value * m_value);  //Same with m²
 
 
-                //Then, we calculate the energy and the magnetization per spin and their squares. We storage them in a file and we also sum t>
-
-		e_ += q * (dE / N);
-
-                m_ += q * ( dM / N );
-
-		e_mean += e_;
-
-		m_mean += abs(m_);
-
-                e2_mean += (e_ * e_);
-
-                m2_mean += (m_ * m_);
+		//We introduce the energy and the magnetization in a file
 
                 ofile1 << e_ << "   " << m_ << endl;
-
-
-		/*if ( i <= 5){
-
-			S.print("S=");
-
-		}*/
 
         }
 
 
 
 
-	//After that, we calculate the mean of the energy and the magnetization per spin, and of their squares. Finally, we obtain Cv and X and we storage everything in another file
+	//Finally we calculate the mean of the energy and the magnetization per spin, and of their squares. Finally, we obtain Cv and X and we storage everything in another file
 
         e_mean = e_mean / MC_cycles;
 
