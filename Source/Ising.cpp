@@ -1,13 +1,14 @@
 #include "Ising.hpp"
 
 
-Ising::Ising(double T_in, int L_in, mt19937 mt_in) {
+Ising::Ising(double T_in, int L_in, double N_in, mt19937 mt_in) {
 
-    //We assign the introduced values to the member variables
+    	//We assign the introduced values to the member variables
 
-    T_ = T_in;
-    L_ = L_in;
-    mt = mt_in;
+    	T_ = T_in;
+    	L_ = L_in;
+	N_ = N_in;
+    	mt = mt_in;
 
 }
 
@@ -89,7 +90,7 @@ double Ising::energy_spin(mat S) {
     }
 
 
-    double e = E / (L_ * L_);
+    double e = E / N_;
 
     return e;
 
@@ -102,7 +103,7 @@ double Ising::energy_spin(mat S) {
 
 double Ising::magnetization_spin(mat S) {
 
-	double m = accu(S) /  (L_ * L_);
+	double m = accu(S) /  N_;
 
     	return m;
 
@@ -115,7 +116,7 @@ double Ising::magnetization_spin(mat S) {
 
 double Ising::Cv(double mean_e, double mean_e2) {
 
-    double Cv = (L_ * L_) * (mean_e2 - (mean_e * mean_e)) / (T_ * T_);
+    double Cv = ( N_ / (T_ * T_) ) *  ((mean_e2) - (mean_e * mean_e));
 
     return Cv;
 
@@ -129,7 +130,7 @@ double Ising::Cv(double mean_e, double mean_e2) {
 
 double Ising::X(double mean_m, double mean_m2) {
 
-    double X = (L_ * L_) * (mean_m2 - (mean_m * mean_m)) / T_;
+    double X = ( N_ / T_ ) * ((mean_m2) - (mean_m * mean_m));
 
     return X;
 
@@ -189,7 +190,7 @@ void Ising::MCMC(mat& S, int& k, int& l, double& q, double& dE, double& dM) {
 
         	S(k, l) = -S(k, l);
 
-		dM = -S(k,l) * 2.0;
+		dM = S(k,l) * 2.0;
 
 		q = 1;
 
