@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 #The data get extracted from different .txt files, in this case, the values of temperature, ϵ, |m|, C_v and χ for the different temperatures and for different lattice sizes.
 
-with  open("Ising_L40_tsp(1000000).txt", "r") as  infile:
+with  open("Ising_L40_tsp(2000000).txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -21,7 +21,7 @@ with  open("Ising_L40_tsp(1000000).txt", "r") as  infile:
         C_v_40.append(float(vals[3]))
         Chi_40.append(float(vals[4]))
 
-with  open("Ising_L60_tsp(1000000).txt", "r") as  infile:
+with  open("Ising_L60_tsp(2000000).txt", "r") as  infile:
 
     lines = infile.readlines()
 
