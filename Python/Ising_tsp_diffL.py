@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 #The data get extracted from different .txt files, in this case, the values of temperature, ϵ, |m|, C_v and χ for the different temperatures and for different lattice sizes.
 
-with  open("Ising_L40_tsp(2000000).txt", "r") as  infile:
+with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -21,7 +21,7 @@ with  open("Ising_L40_tsp(2000000).txt", "r") as  infile:
         C_v_40.append(float(vals[3]))
         Chi_40.append(float(vals[4]))
 
-with  open("Ising_L60_tsp(2000000).txt", "r") as  infile:
+with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -37,7 +37,7 @@ with  open("Ising_L60_tsp(2000000).txt", "r") as  infile:
         C_v_60.append(float(vals[3]))
         Chi_60.append(float(vals[4]))
 
-'''with  open("Ising_L80_tsp.txt", "r") as  infile:
+with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -55,7 +55,7 @@ with  open("Ising_L60_tsp(2000000).txt", "r") as  infile:
         C_v_80.append(float(vals[3]))
         Chi_80.append(float(vals[4]))
 
-with  open("Ising_L100_tsp.txt", "r") as  infile:
+with  open("Ising_L100_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -69,7 +69,7 @@ with  open("Ising_L100_tsp.txt", "r") as  infile:
         eps_100.append(float(vals[1]))
         m_100.append(float(vals[2]))
         C_v_100.append(float(vals[3]))
-        Chi_100.append(float(vals[4]))'''
+        Chi_100.append(float(vals[4]))
 
 
 #The data gets ploted
@@ -78,8 +78,8 @@ plt.figure()
 
 plt.plot(T, eps_40, 'b', label='L=40')
 plt.plot(T, eps_60, 'r', label='L=60')
-#plt.plot(T_, eps_80, 'y', label='L=80')
-#plt.plot(T, eps_100, 'g', label='L=100')
+plt.plot(T_, eps_80, 'y', label='L=80')
+plt.plot(T, eps_100, 'g', label='L=100')
 plt.title('Energy per spin at different temperatures for diffferent lattice sizes')
 plt.xlabel(r'Temperature [J/$k_b$]')
 plt.ylabel(r'Energy per spin ($\epsilon$) [J]')
@@ -93,8 +93,8 @@ plt.figure()
 
 plt.plot(T, m_40, 'b', label='L=40')
 plt.plot(T, m_60, 'r', label='L=60')
-#plt.plot(T_, m_80, 'y', label='L=80')
-#plt.plot(T, m_100, 'g', label='L=100')
+plt.plot(T_, m_80, 'y', label='L=80')
+plt.plot(T, m_100, 'g', label='L=100')
 plt.title('Magnetization per spin at different temperatures for diffferent lattice sizes')
 plt.xlabel(r'Temperature [J/$k_b$]')
 plt.ylabel(r'Magnetization per spin (|m|)')
@@ -108,8 +108,8 @@ plt.figure()
 
 plt.plot(T, C_v_40, 'b', label='L=40')
 plt.plot(T, C_v_60, 'r', label='L=60')
-#plt.plot(T_, C_v_80, 'y', label='L=80')
-#plt.plot(T, C_v_100, 'g', label='L=100')
+plt.plot(T_, C_v_80, 'y', label='L=80')
+plt.plot(T, C_v_100, 'g', label='L=100')
 plt.title('Heat capacity at different temperatures for diffferent lattice sizes')
 plt.xlabel(r'Temperature [J/$k_b$]')
 plt.ylabel(r'Heat capacity ($C_v$) [$k_b$]')
@@ -123,8 +123,8 @@ plt.figure()
 
 plt.plot(T, Chi_40, 'b', label='L=40')
 plt.plot(T, Chi_60, 'r', label='L=60')
-#plt.plot(T_, Chi_80, 'y', label='L=80')
-#plt.plot(T, Chi_100, 'g', label='L=100')
+plt.plot(T_, Chi_80, 'y', label='L=80')
+plt.plot(T, Chi_100, 'g', label='L=100')
 plt.title('Susceptability at different temperatures for diffferent lattice sizes')
 plt.xlabel(r'Temperature [J/$k_b$]')
 plt.ylabel(r'Susceptability ($\chi$) [J$^{-1}$]')
