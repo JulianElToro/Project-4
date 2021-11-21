@@ -5,9 +5,9 @@ int main() {
 
 	//First of all, we create a file to store the data we are going to obtain
 
-	ofstream ofile1;
-	ofile1.open("Ising_L20_T1_ordered.txt");  //That is an example name, but with this file we have generated four different files
-	ofile1 << scientific;
+	ofstream ofile;
+	ofile.open("Ising_L20_T1_ordered.txt");  //That is an example name, but with this file we have generated four different files
+	ofile << scientific;
 
 
 
@@ -15,7 +15,7 @@ int main() {
 	//Then, we introduce the characteristics of the system
 
 	int L = 20;  //Length of the lattice
-	double N = static_cast<double>(L) * static_cast<double>(L);
+	double N_size = 1.0 * (L*L);
 	double T = 1.0;  //Temperature. This is something you can change for generating different data
 
 
@@ -27,7 +27,7 @@ int main() {
 
 	//Finally we create our system
 
-	Ising my_system(T, L, N, mt);
+	Ising my_system(T, L, N_size, mt);
 
 
 
@@ -38,8 +38,8 @@ int main() {
 
         int k, l;
 
-        double e_, m_, e_sum, m_sum, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
-        e_sum = 0.0;
+        double e_value, m_value, e_sum, m_sum, e_mean, e2_mean, m_mean, m2_mean, Cv_value, X_value, q, dE, dM;
+	e_sum = 0.0;
 	m_sum = 0.0;
 	e_mean = 0.0;
         m_mean = 0.0;
@@ -55,14 +55,17 @@ int main() {
 
 	my_system.create_matrix(S, false);
 
-	e_ = my_system.energy_spin(S);
 
-        m_ = my_system.magnetization_spin(S);
+	//We calculate the energy and the magnetization of this first matrix
+
+	e_value = my_system.energy_spin(S);
+
+        m_value = my_system.magnetization_spin(S);
 
 
 
 
-	//Once we have done this previous settings, let's start with the MCMC method. For that, we first set the number of MCMC cycles that we want to perform.
+	//Once we have done this previous settings, let's start with the MCMC method. For that, we first set the number of MCMC cycles that we want to perform
 
 	int MC_cycles = 500000;
 
@@ -73,15 +76,18 @@ int main() {
                 my_system.MCMC(S, k, l, q, dE, dM);
 
 
-                //Then, we calculate the energy and the magnetization per spin and their squares. We storage them in a file and we also sum t>
+                //Then, we calculate the energy and the magnetization per spin of this step and we add those values to the previous ones in order to calculate the mean afterwards
 
-                e_ += q * (dE / N);
+                e_value += q * (dE / N_size);  //e of this step
 
-                m_ += q * ( dM / N );
+                m_value += q * (dM / N_size);  //m of this step
 
-                e_sum += e_;
+                e_sum += e_value;  //Sum of all the energies from this step an the ones before
 
-                m_sum += abs(m_);
+                m_sum += abs(m_value);  //Sum of all the magnetizations from this step an the ones before
+
+
+		//Finally we calculate the means after the i+1 steps that we already did
 
 		e_mean = e_sum / (1.0*i+1);
 
@@ -89,13 +95,13 @@ int main() {
 
 
 
-		//Finally, we introduce the new mean of each thing to the file opened before
+		//We introduce the new mean of each thing to the file opened before
 
-		ofile1 << e_mean << "   " << m_mean << endl;
+		ofile << e_mean << "   " << m_mean << endl;
 
 	}
 
-	ofile1.close();
+	ofile.close();
 
 	return 0;
 

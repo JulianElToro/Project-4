@@ -77,9 +77,9 @@ int main() {
 
                 //Then, we calculate the energy and the magnetization per spin of this step and we add those values to the previous ones in order to calculate the mean afterwards
 
-		e_value += q * (dE / N);  //e of this step
+		e_value += q * (dE / N_size);  //e of this step
 
-                m_value += q * ( dM / N );  //m of this step
+                m_value += q * (dM / N_size);  //m of this step
 
 		e_mean += e_value;  //Sum of all the energies from this step an the ones before
 
@@ -92,7 +92,7 @@ int main() {
 
 		//We introduce the energy and the magnetization in a file
 
-                ofile1 << e_ << "   " << m_ << endl;
+                ofile1 << e_value << "   " << m_value << endl;
 
         }
 
