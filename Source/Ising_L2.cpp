@@ -2,15 +2,11 @@
 
 int main() {
 
-        //First we create two files in order to take a look of our results
+        //First we create a file in order to take a look of our results
 
-        ofstream ofile1;
-        ofile1.open("Ising_L2_energy_magnetization.txt");
-        ofile1 << scientific;
-
-        ofstream ofile2;
-        ofile2.open("Ising_L2_means_Cv_X.txt");
-        ofile2 << scientific;
+        ofstream ofile;
+        ofile.open("Ising_L2_means_Cv_X.txt");
+        ofile << scientific;
 
 
 
@@ -89,11 +85,6 @@ int main() {
 
                 m2_mean += (m_value * m_value);  //Same with m²
 
-
-		//We introduce the energy and the magnetization in a file
-
-                ofile1 << e_value << "   " << m_value << endl;
-
         }
 
 
@@ -113,11 +104,9 @@ int main() {
 
         X_value = my_system.X(m_mean, m2_mean);
 
-        ofile2 << e_mean << "    " << m_mean << "    " << e2_mean << "    " << m2_mean << "    " << Cv_value << "    " << X_value << endl;
-
-        ofile1.close();
-
-        ofile2.close();
+        ofile << e_mean << "    " << m_mean << "    " << e2_mean << "    " << m2_mean << "    " << Cv_value << "    " << X_value << endl;
+	
+        ofile.close();
 
 
         return 0;
