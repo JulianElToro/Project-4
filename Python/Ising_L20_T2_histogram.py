@@ -2,8 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
-#The data gets extracted from a .txt file, in this case, the values of ϵ for each spin state
-
+#We extract the data from an .txt file and create a vector that contains the values of ϵ for each spin state
 with  open("Ising_L20_T2_histogram.txt", "r") as  infile:
     
     lines = infile.readlines ()
@@ -15,7 +14,6 @@ with  open("Ising_L20_T2_histogram.txt", "r") as  infile:
         average_energy.append(float(vals [0]))
 
 #Plot        
-
 n=1000 
 
 mu = np.mean(average_energy)
@@ -42,7 +40,6 @@ plt.xlabel("⟨ϵ⟩/J")
 plt.ylabel("Probability density/J$^{-1}$")
 plt.grid(axis='y' , color = "black" , linewidth = 0.7) #Grid of horizontal lines
 plt.legend() #Legend gets painted
-#plt.show()
 
 #The graph is saved in a PDF file
 plt.savefig("Ising_L20_T2_histogram.pdf")
