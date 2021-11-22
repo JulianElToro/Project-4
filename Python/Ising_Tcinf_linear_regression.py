@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from typing import List
 
 """
-We extract the data from four .txt file, create five vectors for each file, and fill them with the values of the temperature, the energy per spin, 
-the magnetization per spin, the specific heat capacity and the susceptibility respectively
+We extract the data from four .txt file, create five vectors for each file, and fill them with the values of the temperature, ϵ, |m|, C_v and χ respectively for different lattice sizes
 """
 
 #For a lattice with L=40
