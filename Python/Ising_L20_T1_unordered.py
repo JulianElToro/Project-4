@@ -15,8 +15,8 @@ with  open("Ising_L20_T1_unordered.txt", "r") as  infile:
         average_magnetization.append(float(vals [1]))
         
 #Plot
-n=np.size(average_energy)      
-n_MMC = np.linspace(1 , n ,n )
+n=500000      
+n_MMC = np.linspace(1 , n, 500000)
 
 plt.figure()
 plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
@@ -39,4 +39,3 @@ plt.grid(True) #Grids get painted
 
 #The graph is saved in a PDF file
 plt.savefig("Ising_L20_T1_m_unordered.pdf")
-

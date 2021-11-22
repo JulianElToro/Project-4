@@ -15,27 +15,27 @@ with  open("Ising_L20_T1_ordered.txt", "r") as  infile:
         average_magnetization.append(float(vals [1]))
         
 #Plot
-n=np.size(average_energy)      
-n_MMC = np.linspace(1 , n, np.size(average_energy)  )
+n=500000        
+n_MMC = np.linspace(1 , n, 500000)
 
 plt.figure()
 plt.plot(n_MMC, average_energy, "ob", mfc="b", mec = "b", ms=2)
-plt.title("Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles", fontsize=10)
-plt.ylabel("⟨ϵ⟩" )
+plt.title(r'Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles for T=1J/$k_B$ (ordered)', fontsize=10)
+plt.ylabel("⟨ϵ⟩/$J$" )
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
 #plt.show()
 
 #The graph is saved in a PDF file
-plt.savefig("Ising_L20_T1_average_energy_ordered.pdf")
+plt.savefig("Ising_L20_T1_e_ordered.pdf")
 
 plt.figure()
 plt.plot(n_MMC, average_magnetization, "ob", mfc="b", mec = "b", ms=2)
-plt.title("Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles", fontsize=10)
+plt.title(r'Evolution of ⟨|m|⟩ with the number of Monte Carlo cycles for T=1J/$k_B$ (ordered)', fontsize=10)
 plt.ylabel("⟨|m|⟩")
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
 #plt.show()
 
 #The graph is saved in a PDF file
-plt.savefig("Ising_L20_T1_average_magnetization_ordered.pdf")
+plt.savefig("Ising_L20_T1_m_ordered.pdf")
