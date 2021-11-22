@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from typing import List
 
 #We extract the data from an .txt file and create a vector that contains the values of ϵ for each spin state
-
 with  open("Ising_L20_T1_histogram.txt", "r") as  infile:
     
     lines = infile.readlines ()
@@ -15,7 +14,6 @@ with  open("Ising_L20_T1_histogram.txt", "r") as  infile:
         average_energy.append(float(vals [0]))
         
 #Plot        
-
 n=1000 
 
 mu = np.mean(average_energy)
