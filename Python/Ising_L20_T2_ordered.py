@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
+#We extract the data from an .txt file and create two vectors that contain the values of ϵ and the magnetization for each spin state respectively
 with  open("Ising_L20_T2_ordered.txt", "r") as  infile:
     
     lines = infile.readlines ()
