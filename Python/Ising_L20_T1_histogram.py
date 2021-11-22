@@ -2,9 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
-""""
-We extract the data from an .txt file and create a vector that contains the values of ϵ for each spin state
-""""
+#We extract the data from an .txt file and create a vector that contains the values of ϵ for each spin state
 
 with  open("Ising_L20_T1_histogram.txt", "r") as  infile:
     
