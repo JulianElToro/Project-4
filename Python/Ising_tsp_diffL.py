@@ -6,7 +6,7 @@ We extract the data from four .txt file, create five vectors for each file, and 
 """
 
 #For a lattice with L=40
-with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
+with  open("Ising_L40_tsp.txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -25,7 +25,7 @@ with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
         Chi_40.append(float(vals[4]))
 
 #For a lattice with L=60
-with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
+with  open("Ising_L60_tsp.txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -42,7 +42,7 @@ with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
         Chi_60.append(float(vals[4]))
         
 #For a lattice with L=80
-with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
+with  open("Ising_L80_tsp.txt", "r") as  infile:
 
     lines = infile.readlines()
 
@@ -61,7 +61,7 @@ with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
         Chi_80.append(float(vals[4]))
 
 #For a lattice with L=100
-with  open("Ising_L100_tsp(4000000).txt", "r") as  infile:
+with  open("Ising_L100_tsp.txt", "r") as  infile:
 
     lines = infile.readlines()
 
