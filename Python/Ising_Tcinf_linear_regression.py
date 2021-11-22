@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
+"""
+We extract the data from four .txt file, create five vectors for each file, and fill them with the values of the temperature, ϵ, |m|, C_v and χ respectively for different lattice sizes
+"""
+#For a lattice with L=40
 with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -22,6 +26,7 @@ with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
         C_v_40.append(float(vals[3]))
         Chi_40.append(float(vals[4]))
 
+#For a lattice with L=60
 with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -39,6 +44,7 @@ with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
         C_v_60.append(float(vals[3]))
         Chi_60.append(float(vals[4]))
 
+#For a lattice with L=80
 with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -57,6 +63,7 @@ with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
         C_v_80.append(float(vals[3]))
         Chi_80.append(float(vals[4]))
 
+#For a lattice with L=100
 with  open("Ising_L100_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -129,12 +136,10 @@ plt.title( r'Linear regression of $T_c(L)$ and $L^{-1}$ ($C_V$ results) ')
 
 plt.savefig("Ising_Tcinf_linear_regression_Cv.pdf")
 
-
-
 plt.show()
 
 
-# Linear regression with Cv
+# Linear regression with X
 
 r2 = stats.linregress(Linv,TcL_b)
 
