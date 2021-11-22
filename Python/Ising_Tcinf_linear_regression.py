@@ -1,9 +1,14 @@
-
 from scipy import stats
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
+"""
+We extract the data from four .txt file, create five vectors for each file, and fill them with the values of the temperature, the energy per spin, 
+the magnetization per spin, the specific heat capacity and the susceptibility respectively
+"""
+
+#For a lattice with L=40
 with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -22,6 +27,7 @@ with  open("Ising_L40_tsp(4000000).txt", "r") as  infile:
         C_v_40.append(float(vals[3]))
         Chi_40.append(float(vals[4]))
 
+#For a lattice with L=60
 with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -39,6 +45,7 @@ with  open("Ising_L60_tsp(4000000).txt", "r") as  infile:
         C_v_60.append(float(vals[3]))
         Chi_60.append(float(vals[4]))
 
+#For a lattice with L=80
 with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -56,7 +63,8 @@ with  open("Ising_L80_tsp(4000000).txt", "r") as  infile:
         m_80.append(float(vals[2]))
         C_v_80.append(float(vals[3]))
         Chi_80.append(float(vals[4]))
-
+        
+#For a lattice with L=100
 with  open("Ising_L100_tsp(4000000).txt", "r") as  infile:
 
     lines = infile.readlines()
@@ -74,35 +82,28 @@ with  open("Ising_L100_tsp(4000000).txt", "r") as  infile:
         Chi_100.append(float(vals[4]))
 
 # Temperatures where the Cv is maximum
-
 Tc1 = T[np.argmax(C_v_40)]
 Tc2 = T[np.argmax(C_v_60)]
 Tc3 = T[np.argmax(C_v_80)]
 Tc4 = T[np.argmax(C_v_100)]
 
 # Temperatures where the X is maximum
-
 Tc1_b = T[np.argmax(Chi_40)]
 Tc2_b = T[np.argmax(Chi_60)]
 Tc3_b = T[np.argmax(Chi_80)]
 Tc4_b = T[np.argmax(Chi_100)]
 
 # Size of the matrix
-
 L = np.array([40,60,80,100])
 
 Linv = 1/L
 
-# Resullts for the critical temperature for different sizes
-
+# Results for the critical temperature for different sizes
 TcL = np.array([Tc1, Tc2 , Tc3 , Tc4])
 
 TcL_b = np.array([Tc1_b, Tc2_b , Tc3_b , Tc4_b])
 
-#TcL = np.random.random(4)+2
-
 # Linear regression with Cv
-
 slope, intercept, r_value, p_value, std_err = stats.linregress(Linv,TcL)
 
 plt.plot( Linv , TcL , 'o', color = 'blue')
@@ -131,7 +132,6 @@ plt.show()
 
 
 # Linear regression with Cv
-
 slope_b, intercept_b, r_value_b, p_value_b, std_err_B = stats.linregress(Linv,TcL_b)
 
 plt.plot( Linv , TcL_b , 'o', color = 'blue')
