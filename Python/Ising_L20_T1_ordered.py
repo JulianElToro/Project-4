@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 
+#We extract the data from an .txt file and create two vectors that contain the values of ϵ and the magnetization for each spin state respectively
 with  open("Ising_L20_T1_ordered.txt", "r") as  infile:
     
     lines = infile.readlines ()
@@ -24,7 +25,6 @@ plt.title(r'Evolution of ⟨ϵ⟩ with the number of Monte Carlo cycles for T=1J
 plt.ylabel("⟨ϵ⟩/$J$" )
 plt.xlabel("Monte Carlo cycles")
 plt.grid(True) #Grids get painted
-#plt.show()
 
 #The graph is saved in a PDF file
 plt.savefig("Ising_L20_T1_e_ordered.pdf")
