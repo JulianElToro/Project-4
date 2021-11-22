@@ -86,7 +86,7 @@ plt.ylabel(r'Energy per spin ($\epsilon$) [J]')
 plt.legend()
 plt.grid(True)
 
-plt.savefig('energy per spin for diff temperatures.pdf')
+plt.savefig('energy_per_spin_for_diff_temperatures.pdf')
 
 
 plt.figure()
@@ -101,7 +101,7 @@ plt.ylabel(r'Magnetization per spin (|m|)')
 plt.legend()
 plt.grid(True)
 
-plt.savefig('magnetization per spin for diff temperatures.pdf')
+plt.savefig('magnetization_per_spin_for_diff_temperatures.pdf')
 
 
 plt.figure()
@@ -116,7 +116,7 @@ plt.ylabel(r'Heat capacity ($C_v$) [$k_b$]')
 plt.legend()
 plt.grid(True)
 
-plt.savefig('C_v for diff temperatures.pdf')
+plt.savefig('Cv_for_diff_temperatures.pdf')
 
 
 plt.figure()
@@ -131,4 +131,4 @@ plt.ylabel(r'Susceptability ($\chi$) [J$^{-1}$]')
 plt.legend()
 plt.grid(True)
 
-plt.savefig('chi for diff temperatures.pdf')
+plt.savefig('chi_for_diff_temperatures.pdf')
